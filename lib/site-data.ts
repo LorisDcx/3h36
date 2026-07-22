@@ -80,11 +80,11 @@ export type ContactDetails = {
 };
 
 export const navigation = [
-  { label: "Expertises", href: "/#expertises" },
-  { label: "Offres", href: "/#offres" },
-  { label: "Collectif", href: "/#collectif" },
+  { label: "Solutions", href: "/services" },
+  { label: "Secteurs", href: "/secteurs" },
   { label: "Réalisations", href: "/realisations" },
-  { label: "Approche", href: "/#methode" },
+  { label: "Ressources", href: "/ressources" },
+  { label: "Collectif", href: "/a-propos" },
 ] as const satisfies readonly NavigationItem[];
 
 export const clientMarks = [
@@ -477,34 +477,41 @@ export const footerLinks = [
   {
     title: "Explorer",
     links: [
-      { label: "Expertises", href: "/#expertises" },
-      { label: "Offres", href: "/#offres" },
-      { label: "Le collectif", href: "/#collectif" },
+      { label: "Tous les services", href: "/services" },
+      { label: "Secteurs accompagnés", href: "/secteurs" },
       { label: "Réalisations", href: "/realisations" },
+      { label: "Ressources", href: "/ressources" },
+      { label: "Observatoire GEO Savoie", href: "/observatoire-geo-savoie" },
     ],
   },
   {
-    title: "Travailler ensemble",
+    title: "Solutions prioritaires",
     links: [
-      { label: "Notre approche", href: "/#methode" },
-      { label: "Site vitrine", href: "/site-vitrine" },
-      { label: "Site acquisition", href: "/site-acquisition" },
-      { label: "Outil métier", href: "/solutions-metiers" },
+      { label: "Agence web Chambéry", href: "/agence-web-chambery" },
+      { label: "Sites pour le bâtiment", href: "/site-internet-batiment-savoie" },
+      { label: "Refonte de site PME", href: "/refonte-site-internet-pme-savoie" },
+      { label: "SEO en Savoie", href: "/referencement-seo" },
+      { label: "Visibilité GEO", href: "/geo" },
+      { label: "Google Ads", href: "/gestion-google-ads" },
+      { label: "Agence web Aix-les-Bains", href: "/agence-web-aix-les-bains" },
+      { label: "Agence web Albertville", href: "/agence-web-albertville" },
     ],
   },
   {
-    title: "Informations",
+    title: "3h36 Agency",
     links: [
+      { label: "À propos", href: "/a-propos" },
+      { label: "Notre méthode", href: "/methode" },
+      { label: "Accompagnement", href: "/accompagnement" },
       { label: "Contact", href: "/contact" },
       { label: "Mentions légales", href: "/mentions-legales" },
       { label: "Confidentialité", href: "/politique-confidentialite" },
-      { label: "Cookies", href: "/cookies" },
     ],
   },
 ] as const satisfies readonly FooterLinkGroup[];
 
 export const contact = {
-  email: "",
+  email: "Lorisdcx.pro@gmail.com",
   phone: "",
   location: "Savoie",
   note: "Projets locaux et à distance.",

@@ -3,6 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { projects } from "@/lib/site-data";
 
+const SITE_URL = "https://www.3h36agency.fr";
+
 export const metadata: Metadata = {
   title: "Réalisations",
   description:
@@ -23,7 +25,7 @@ const projectListSchema = {
   itemListElement: projects.map((project, index) => ({
     "@type": "ListItem",
     position: index + 1,
-    url: `/realisations/${project.slug}`,
+    url: `${SITE_URL}/realisations/${project.slug}`,
     name: project.name,
     description: project.solution,
     sameAs: project.href,

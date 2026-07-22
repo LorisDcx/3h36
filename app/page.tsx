@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ProjectCarousel } from "@/components/ProjectCarousel";
+import { seoArticles } from "@/lib/seo-articles";
 import {
   clientMarks,
   collectiveRoles,
@@ -12,6 +13,50 @@ import {
 } from "@/lib/site-data";
 
 type ClientMark = (typeof clientMarks)[number];
+
+const audienceCards = [
+  {
+    index: "01",
+    title: "Entreprises du bâtiment",
+    description: "Un système local pour montrer les chantiers, rassurer et transformer les recherches en demandes de devis qualifiées.",
+    href: "/secteurs/batiment",
+  },
+  {
+    index: "02",
+    title: "PME établies",
+    description: "Une refonte maîtrisée, une offre plus lisible et des canaux d’acquisition reliés aux vraies conversions.",
+    href: "/secteurs/pme",
+  },
+  {
+    index: "03",
+    title: "Startups & nouvelles marques",
+    description: "Positionnement, identité, landing page ou produit : une base crédible pour lancer et apprendre rapidement.",
+    href: "/secteurs/startups",
+  },
+  {
+    index: "04",
+    title: "Experts indépendants",
+    description: "Une présence d’autorité pour les consultants, cabinets et spécialistes dont la valeur dépasse un simple portfolio.",
+    href: "/secteurs/independants",
+  },
+] as const;
+
+const expertiseLinks: Record<string, { href: string; label: string }> = {
+  strategie: { href: "/services", label: "Voir toutes les solutions" },
+  digital: { href: "/creation-site-internet-chambery", label: "Création de sites internet" },
+  identite: { href: "/identite-visuelle-chambery", label: "Identité visuelle" },
+  "photo-video": { href: "/photo-video-entreprise-savoie", label: "Photo et vidéo d’entreprise" },
+  acquisition: { href: "/referencement-seo", label: "SEO, GEO et acquisition" },
+  contenus: { href: "/ressources", label: "Découvrir nos ressources" },
+};
+
+const featuredArticleSlugs = new Set([
+  "site-internet-batiment-generer-devis",
+  "seo-ou-google-ads-pme-locale",
+  "apparaitre-chatgpt-google-ai",
+]);
+
+const featuredResources = seoArticles.filter((article) => featuredArticleSlugs.has(article.slug));
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -54,13 +99,13 @@ export default function Home() {
         <div className="hero-orbit hero-orbit-two" aria-hidden="true" />
         <div className="shell agency-hero-grid">
           <div className="agency-hero-copy">
-            <p className="eyebrow">Collectif web, design & acquisition en Savoie</p>
+            <p className="eyebrow">Agence web, design, SEO & acquisition en Savoie</p>
             <h1 id="hero-title">
               Une image claire, un site solide, une <em>visibilité augmentée.</em>
             </h1>
             <p className="agency-hero-lead">
-              Trois indépendants réunissent stratégie, design et acquisition pour construire des marques
-              cohérentes, des outils simples à comprendre et une visibilité que l’on peut piloter.
+              3h36 réunit stratégie, design et acquisition pour aider les PME, entreprises du bâtiment,
+              startups et experts indépendants à être mieux compris, mieux trouvés et plus souvent contactés.
             </p>
             <div className="cta-row">
               <Link className="button" href="/contact">
@@ -137,6 +182,31 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="agency-section audience-home" aria-labelledby="audience-home-title">
+        <div className="shell">
+          <div className="split-heading">
+            <div>
+              <p className="section-index">Nos secteurs prioritaires</p>
+              <p className="kicker">Spécialisés sans devenir rigides</p>
+              <h2 id="audience-home-title">Un même niveau d’exigence, des réponses propres à chaque métier.</h2>
+            </div>
+            <p>
+              Un chantier, une PME en refonte, une startup en lancement et un consultant expérimenté ne se vendent pas de la même façon. Chaque parcours part de ses décisions réelles.
+            </p>
+          </div>
+          <div className="audience-home-grid">
+            {audienceCards.map((item) => (
+              <Link href={item.href} key={item.href}>
+                <span>{item.index}</span>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                <i aria-hidden="true">↗</i>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <div id="expertises" className="expertise-list">
         {expertises.map((expertise, index) => (
           <section className={`expertise-row${index % 2 ? " expertise-row-reverse" : ""}`} key={expertise.id} aria-labelledby={`expertise-${expertise.id}`}>
@@ -150,6 +220,9 @@ export default function Home() {
                 <ul className="deliverable-list">
                   {expertise.deliverables.map((item) => <li key={item}>{item}</li>)}
                 </ul>
+                <Link className="text-link expertise-link" href={expertiseLinks[expertise.id].href}>
+                  {expertiseLinks[expertise.id].label} <span aria-hidden="true">↗</span>
+                </Link>
               </div>
               <figure className="expertise-visual">
                 <div className="expertise-image-wrap">
@@ -269,6 +342,38 @@ export default function Home() {
               </li>
             ))}
           </ol>
+        </div>
+      </section>
+
+      <section className="agency-section home-resources" aria-labelledby="home-resources-title">
+        <div className="shell">
+          <div className="split-heading">
+            <div>
+              <p className="section-index">Ressources & observatoire</p>
+              <p className="kicker">Des réponses qui restent vérifiables</p>
+              <h2 id="home-resources-title">Comprendre avant d’investir.</h2>
+            </div>
+            <div>
+              <p>Guides de décision, méthodes et sources officielles pour piloter un site, le SEO, l’acquisition et la visibilité dans les moteurs IA.</p>
+              <Link className="text-link" href="/ressources">Voir toutes les ressources <span aria-hidden="true">→</span></Link>
+            </div>
+          </div>
+          <div className="home-resource-grid">
+            {featuredResources.map((article) => (
+              <Link href={`/ressources/${article.slug}`} key={article.slug}>
+                <span>{article.category} · {article.readingTime}</span>
+                <h3>{article.title}</h3>
+                <p>{article.description}</p>
+                <i aria-hidden="true">↗</i>
+              </Link>
+            ))}
+            <Link className="home-resource-observatory" href="/observatoire-geo-savoie">
+              <span>Observatoire GEO Savoie · protocole ouvert</span>
+              <h3>Mesurer ce que les moteurs IA comprennent, citent et recommandent.</h3>
+              <p>Une méthode publiée avant les résultats, fondée sur des observations datées et des sources vérifiables.</p>
+              <i aria-hidden="true">↗</i>
+            </Link>
+          </div>
         </div>
       </section>
 

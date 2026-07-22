@@ -11,8 +11,8 @@ export function Footer() {
             <Logo />
           </Link>
           <p>
-            Un collectif web, design et acquisition basé en Savoie.
-            Trois expertises complémentaires, un interlocuteur principal.
+            Agence web, image et acquisition basée en Savoie. Sites, SEO, GEO,
+            identité et contenus réunis autour d’une direction commune.
           </p>
         </div>
 

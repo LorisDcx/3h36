@@ -273,9 +273,9 @@ export const pageContentByRoute: Record<PageRoute, PageContent> = {
     description:
       "Les forfaits récurrents maintiennent le site, développent sa visibilité ou pilotent l’acquisition. Ils sont proposés clairement, avec un périmètre défini et sans promesse de résultat garanti.",
     seo: {
-      title: "Maintenance, SEO local et Google Ads | 3h36 Agency",
+      title: "Accompagnement digital mensuel | 3h36 Agency",
       description:
-        "Forfaits mensuels dès 99 € HT pour maintenir votre site, développer sa visibilité ou piloter l’acquisition.",
+        "Un cadre mensuel pour maintenir, mesurer et améliorer votre présence digitale, avec un périmètre et un rythme définis à l’avance.",
     },
     sections: [
       {
@@ -440,7 +440,7 @@ export const pageContentByRoute: Record<PageRoute, PageContent> = {
     description:
       "3h36 agency réunit stratégie web et acquisition, identité graphique, photo et vidéo pour construire des marques et des dispositifs cohérents.",
     seo: {
-      title: "À propos de 3h36 agency, collectif web et créatif en Savoie",
+      title: "Le collectif web et créatif 3h36 en Savoie",
       description:
         "Trois indépendants complémentaires pour relier stratégie, identité, sites, contenus, photo, vidéo et acquisition en Savoie et à distance.",
     },
@@ -618,9 +618,5 @@ export const pageContentByRoute: Record<PageRoute, PageContent> = {
           "Vous pouvez accepter ou refuser les traceurs optionnels avec le même niveau de simplicité, puis modifier votre choix à tout moment. Les durées de conservation du consentement et des traceurs doivent être renseignées selon les outils retenus et la réglementation applicable.",
       },
     ],
-    cta: {
-      label: "Gérer mes préférences",
-      href: "#cookie-preferences",
-    },
   },
 };

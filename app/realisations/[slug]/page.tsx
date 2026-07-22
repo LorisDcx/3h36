@@ -6,6 +6,50 @@ import { caseStudies } from "@/lib/case-studies";
 import { projects } from "@/lib/site-data";
 
 type PageProps = { params: Promise<{ slug: string }> };
+const SITE_URL = "https://www.3h36agency.fr";
+
+const projectRelatedRoutes: Record<string, readonly { href: string; label: string }[]> = {
+  plum: [
+    { href: "/secteurs/startups", label: "Lancement de startup" },
+    { href: "/solutions-metiers", label: "Solutions métiers" },
+    { href: "/identite-visuelle-chambery", label: "Identité visuelle" },
+  ],
+  urgeza: [
+    { href: "/lancement-marque-startup-savoie", label: "Lancement de marque" },
+    { href: "/identite-visuelle-chambery", label: "Identité visuelle" },
+    { href: "/site-acquisition", label: "Site d’acquisition" },
+  ],
+  aviszen: [
+    { href: "/geo", label: "Visibilité GEO" },
+    { href: "/referencement-seo", label: "Référencement SEO" },
+    { href: "/solutions-metiers", label: "Solution métier" },
+  ],
+  "delco-ink": [
+    { href: "/creation-site-internet-chambery", label: "Création de site à Chambéry" },
+    { href: "/referencement-seo-chambery", label: "SEO local à Chambéry" },
+    { href: "/photo-video-entreprise-savoie", label: "Photo et vidéo" },
+  ],
+  flowsaver: [
+    { href: "/secteurs/startups", label: "Accompagnement startup" },
+    { href: "/solutions-metiers", label: "Développement sur mesure" },
+    { href: "/site-acquisition", label: "Site d’acquisition" },
+  ],
+  wildeye: [
+    { href: "/solutions-metiers", label: "Application sur mesure" },
+    { href: "/secteurs/startups", label: "Produit numérique" },
+    { href: "/services", label: "Toutes les expertises" },
+  ],
+  cramdesk: [
+    { href: "/secteurs/startups", label: "Lancement de startup" },
+    { href: "/lancement-marque-startup-savoie", label: "Marque et lancement" },
+    { href: "/site-acquisition", label: "Landing d’acquisition" },
+  ],
+  "loris-lazulis": [
+    { href: "/site-internet-consultant-savoie", label: "Site pour consultant" },
+    { href: "/identite-visuelle-chambery", label: "Identité de marque" },
+    { href: "/referencement-seo", label: "Contenus et SEO" },
+  ],
+};
 
 function getProject(slug: string) {
   return projects.find((project) => project.slug === slug);
@@ -46,9 +90,9 @@ export default async function CaseStudyPage({ params }: PageProps) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Accueil", item: "/" },
-      { "@type": "ListItem", position: 2, name: "Réalisations", item: "/realisations" },
-      { "@type": "ListItem", position: 3, name: project.name, item: `/realisations/${project.slug}` },
+      { "@type": "ListItem", position: 1, name: "Accueil", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Réalisations", item: `${SITE_URL}/realisations` },
+      { "@type": "ListItem", position: 3, name: project.name, item: `${SITE_URL}/realisations/${project.slug}` },
     ],
   };
 
@@ -58,10 +102,10 @@ export default async function CaseStudyPage({ params }: PageProps) {
     name: project.name,
     headline: study.headline,
     description: study.introduction,
-    url: `/realisations/${project.slug}`,
-    image: project.image,
+    url: `${SITE_URL}/realisations/${project.slug}`,
+    image: `${SITE_URL}${project.image}`,
     sameAs: project.href,
-    creator: { "@type": "Organization", name: "3h36 Agency" },
+    creator: { "@id": `${SITE_URL}/#organization` },
   };
 
   return (
@@ -185,6 +229,22 @@ export default async function CaseStudyPage({ params }: PageProps) {
               </div>
             </div>
           </section>
+
+          <aside className="case-related-services" aria-labelledby="case-related-title">
+            <div className="shell case-related-services-inner">
+              <div>
+                <p className="section-index">04 — Expertises associées</p>
+                <h2 id="case-related-title">Les savoir-faire mobilisés autour de ce projet.</h2>
+              </div>
+              <div className="case-related-links">
+                {projectRelatedRoutes[project.slug].map((route) => (
+                  <Link href={route.href} key={route.href}>
+                    <span>{route.label}</span><i aria-hidden="true">↗</i>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </aside>
 
           <aside className="case-live-band" aria-label={`Accéder au projet ${project.name}`}>
             <div className="shell case-live-band-inner">

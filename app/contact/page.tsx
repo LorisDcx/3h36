@@ -4,6 +4,24 @@ import ContactForm from "./ContactForm";
 export const metadata: Metadata = {
   title: "Parler de votre projet",
   description: "Choisissez votre besoin et présentez simplement votre projet au bon interlocuteur de 3h36 agency.",
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    url: "/contact",
+    siteName: "3h36 Agency",
+    title: "Parler de votre projet — 3h36 Agency",
+    description:
+      "Choisissez votre besoin et présentez simplement votre projet au bon interlocuteur de 3h36 agency.",
+    images: [
+      {
+        url: "/og-seo-geo-v1.jpg",
+        width: 1200,
+        height: 630,
+        alt: "3h36 Agency — collectif web, design et acquisition en Savoie",
+      },
+    ],
+  },
 };
 
 export default function ContactPage() {
