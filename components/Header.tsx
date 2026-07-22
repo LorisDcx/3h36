@@ -233,7 +233,7 @@ export function Header() {
               open={openMenu === menu.id}
               onOpen={() => setOpenMenu(menu.id)}
               onToggle={() => setOpenMenu((current) => (current === menu.id ? null : menu.id))}
-              onClose={() => setOpenMenu(null)}
+              onClose={() => setOpenMenu((current) => (current === menu.id ? null : current))}
             />
           ))}
 
@@ -301,14 +301,42 @@ function DesktopDropdown({
 }) {
   const dropdownId = `desktop-${menu.id}-navigation`;
   const compact = menu.columns.reduce((total, column) => total + column.links.length, 0) <= 4;
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function cancelPendingClose() {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+  }
+
+  function scheduleClose() {
+    cancelPendingClose();
+    closeTimerRef.current = setTimeout(onClose, 260);
+  }
+
+  function closeImmediately() {
+    cancelPendingClose();
+    onClose();
+  }
+
+  useEffect(
+    () => () => {
+      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    },
+    [],
+  );
 
   return (
     <div
       className={`desktop-nav-menu${open ? " is-open" : ""}`}
-      onMouseEnter={onOpen}
-      onMouseLeave={onClose}
+      onMouseEnter={() => {
+        cancelPendingClose();
+        onOpen();
+      }}
+      onMouseLeave={scheduleClose}
       onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) onClose();
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) closeImmediately();
       }}
     >
       <button
@@ -318,15 +346,24 @@ function DesktopDropdown({
         aria-controls={dropdownId}
         aria-expanded={open}
         onClick={onToggle}
-        onFocus={onOpen}
+        onFocus={() => {
+          cancelPendingClose();
+          onOpen();
+        }}
       >
         <span>{menu.label}</span>
         <span className="nav-menu-chevron" aria-hidden="true">⌄</span>
       </button>
 
-      <div id={dropdownId} className={`nav-dropdown${compact ? " nav-dropdown-compact" : ""}`} aria-hidden={!open}>
+      <div
+        id={dropdownId}
+        className={`nav-dropdown${compact ? " nav-dropdown-compact" : ""}`}
+        aria-hidden={!open}
+        onMouseEnter={cancelPendingClose}
+        onMouseLeave={scheduleClose}
+      >
         <div className="nav-dropdown-inner shell">
-          <Link className="nav-dropdown-overview" href={menu.href} onClick={onClose}>
+          <Link className="nav-dropdown-overview" href={menu.href} onClick={closeImmediately}>
             <span className="nav-dropdown-eyebrow">{menu.eyebrow}</span>
             <strong>{menu.title}</strong>
             <span className="nav-dropdown-description">{menu.description}</span>
@@ -341,7 +378,7 @@ function DesktopDropdown({
                 <span className="nav-dropdown-column-title">{column.title}</span>
                 <div>
                   {column.links.map((link) => (
-                    <Link key={link.href} className="nav-dropdown-link" href={link.href} onClick={onClose}>
+                    <Link key={link.href} className="nav-dropdown-link" href={link.href} onClick={closeImmediately}>
                       <strong>{link.label}</strong>
                       {link.description ? <span>{link.description}</span> : null}
                     </Link>

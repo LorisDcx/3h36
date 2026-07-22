@@ -7493,6 +7493,15 @@ h3 {
   transition: transform 180ms ease;
 }
 
+.nav-menu-trigger::before {
+  position: absolute;
+  top: 100%;
+  right: -9px;
+  left: -9px;
+  height: 30px;
+  content: "";
+}
+
 .nav-menu-trigger:hover,
 .desktop-nav-menu.is-open .nav-menu-trigger {
   background: transparent;
