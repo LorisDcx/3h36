@@ -4454,6 +4454,247 @@ h3 {
   color: var(--night);
 }
 
+/* Compact contact journey */
+.contact-main {
+  background: var(--paper);
+}
+
+.contact-compact {
+  display: grid;
+  min-height: calc(100svh - 80px);
+  align-items: center;
+  padding: clamp(42px, 6vh, 74px) 0;
+  background:
+    radial-gradient(circle at 8% 84%, rgba(232, 83, 39, 0.08), transparent 26%),
+    radial-gradient(circle at 92% 12%, rgba(192, 210, 202, 0.48), transparent 28%),
+    var(--paper);
+}
+
+.contact-compact-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.68fr) minmax(550px, 1.32fr);
+  gap: clamp(50px, 7vw, 112px);
+  align-items: center;
+}
+
+.contact-compact-intro {
+  max-width: 520px;
+}
+
+.contact-compact-intro h1 {
+  margin-bottom: 22px;
+  font-size: clamp(3.7rem, 5.8vw, 5.7rem);
+  line-height: 0.92;
+}
+
+.contact-compact-intro > p:not(.eyebrow) {
+  max-width: 455px;
+  margin-bottom: 28px;
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
+.contact-compact-intro > span {
+  display: inline-flex;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink-soft);
+  font-size: 0.61rem;
+  font-weight: 760;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.contact-panel {
+  min-width: 0;
+  min-height: 526px;
+  padding: clamp(27px, 3vw, 40px);
+  border: 1px solid rgba(16, 43, 58, 0.12);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.93);
+  box-shadow: 0 28px 70px rgba(16, 43, 58, 0.1);
+}
+
+.contact-progress-compact {
+  margin-bottom: 27px;
+}
+
+.contact-progress-compact .contact-progress-steps {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 12px;
+}
+
+.contact-progress-compact .contact-progress-step:last-child {
+  justify-self: end;
+}
+
+.contact-form-compact .contact-legend {
+  max-width: 710px;
+  margin-bottom: 8px;
+  font-size: clamp(2rem, 3.1vw, 2.85rem);
+}
+
+.contact-form-compact .contact-step-intro {
+  margin: 0 0 23px;
+}
+
+.contact-step-body {
+  min-height: 328px;
+}
+
+.contact-need-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.contact-need-choice .contact-choice-label {
+  display: flex;
+  min-height: 178px;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 28px;
+  padding: 21px;
+  border-radius: 17px;
+}
+
+.contact-need-choice .contact-choice-label::before {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--ink-soft);
+  content: "→";
+  font-size: 0.75rem;
+  place-items: center;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.contact-need-choice .contact-choice-label strong {
+  display: block;
+  color: var(--night);
+  font-family: var(--serif);
+  font-size: 1.18rem;
+  font-weight: 590;
+  line-height: 1.15;
+}
+
+.contact-need-choice .contact-choice-label small {
+  display: block;
+  margin-top: 9px;
+  color: var(--ink-soft);
+  font-size: 0.61rem;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.contact-need-choice .contact-choice-input:checked + .contact-choice-label {
+  border-color: var(--copper);
+  background: rgba(232, 83, 39, 0.07);
+  box-shadow: inset 0 0 0 1px var(--copper);
+}
+
+.contact-need-choice .contact-choice-input:checked + .contact-choice-label::before {
+  border-color: var(--copper);
+  background: var(--copper);
+  color: var(--white);
+}
+
+.contact-fields-compact {
+  gap: 13px 15px;
+}
+
+.contact-fields-compact .contact-field {
+  gap: 5px;
+}
+
+.contact-fields-compact .contact-input {
+  min-height: 45px;
+  padding: 9px 12px;
+}
+
+.contact-textarea-compact {
+  min-height: 102px;
+  padding: 11px 12px;
+}
+
+.contact-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  font-size: 0.64rem;
+  line-height: 1.5;
+}
+
+.contact-consent input {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+  margin-top: 2px;
+  accent-color: var(--copper);
+}
+
+.contact-consent a {
+  color: var(--night);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.contact-honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.contact-form-actions-compact {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.contact-form-actions-compact .contact-button {
+  min-height: 46px;
+}
+
+.contact-button:disabled {
+  cursor: wait;
+  opacity: 0.62;
+}
+
+.contact-error {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border-left: 2px solid #b4472f;
+  background: #fff3ef;
+  color: #81341f;
+  font-size: 0.7rem;
+  line-height: 1.45;
+}
+
+.contact-confirmation-compact {
+  display: grid;
+  align-content: center;
+  outline: 0;
+}
+
+.contact-confirmation-compact .contact-confirmation-title {
+  margin-bottom: 14px;
+  font-size: clamp(3rem, 5vw, 5rem);
+}
+
+.contact-confirmation-compact .contact-confirmation-copy {
+  max-width: 590px;
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
 @keyframes client-scroll {
   to { transform: translateX(-50%); }
 }
@@ -4683,6 +4924,28 @@ h3 {
 
   .case-delivery-grid {
     gap: 52px;
+  }
+
+  .contact-compact {
+    min-height: 0;
+    padding: 58px 0 72px;
+  }
+
+  .contact-compact-grid {
+    grid-template-columns: 1fr;
+    gap: 38px;
+  }
+
+  .contact-compact-intro {
+    max-width: 680px;
+  }
+
+  .contact-compact-intro h1 {
+    max-width: 620px;
+  }
+
+  .contact-panel {
+    min-height: 0;
   }
 }
 
@@ -5049,6 +5312,84 @@ h3 {
   .case-next a > span {
     width: 44px;
     height: 44px;
+  }
+
+  .contact-compact {
+    padding: 38px 0 52px;
+  }
+
+  .contact-compact-grid {
+    gap: 30px;
+  }
+
+  .contact-compact-intro h1 {
+    font-size: clamp(3.1rem, 15vw, 4.4rem);
+  }
+
+  .contact-compact-intro > p:not(.eyebrow) {
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+  }
+
+  .contact-panel {
+    padding: 22px 19px;
+    border-radius: 20px;
+  }
+
+  .contact-progress-label {
+    display: inline;
+  }
+
+  .contact-progress-compact .contact-progress-step {
+    font-size: 0.59rem;
+  }
+
+  .contact-progress-number {
+    width: 20px;
+    height: 20px;
+  }
+
+  .contact-step-body {
+    min-height: 0;
+  }
+
+  .contact-need-grid,
+  .contact-fields-compact {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-need-choice .contact-choice-label {
+    display: grid;
+    min-height: 94px;
+    grid-template-columns: 30px 1fr;
+    gap: 2px 13px;
+    align-content: center;
+    padding: 15px 16px;
+  }
+
+  .contact-need-choice .contact-choice-label::before {
+    grid-row: 1 / 3;
+  }
+
+  .contact-need-choice .contact-choice-label strong,
+  .contact-need-choice .contact-choice-label small {
+    grid-column: 2;
+  }
+
+  .contact-need-choice .contact-choice-label small {
+    margin-top: 4px;
+  }
+
+  .contact-form-compact .contact-legend {
+    font-size: clamp(1.9rem, 9vw, 2.6rem);
+  }
+
+  .contact-form-actions-compact {
+    margin-top: 18px;
+  }
+
+  .contact-confirmation-compact {
+    min-height: 410px;
   }
 }
 

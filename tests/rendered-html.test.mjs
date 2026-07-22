@@ -1,14 +1,15 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-async function render(pathname = "/") {
+async function render(pathname = "/", init = {}) {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-${Math.random()}`);
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
     new Request(`http://localhost${pathname}`, {
-      headers: { accept: "text/html" },
+      ...init,
+      headers: { accept: "text/html", ...init.headers },
     }),
     {
       ASSETS: {
@@ -68,5 +69,49 @@ for (const [slug, name, website] of cases) {
     assert.match(html, /Lire l’étude de cas/i);
     assert.match(html, /Voir le site web/i);
     assert.ok(html.includes(`href="${website}"`));
+  });
+}
+
+test("renders the compact two-step contact journey with three needs", async () => {
+  const response = await render("/contact");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /Site web, acquisition &amp; outils/i);
+  assert.match(html, /Photo &amp; vidéo/i);
+  assert.match(html, /Identité &amp; contenu/i);
+  assert.match(html, /2 étapes/i);
+  assert.doesNotMatch(html, /Google Ads<\/span>|Budget indicatif|Accompagnement mensuel/i);
+});
+
+test("rejects an invalid contact payload on the server", async () => {
+  const response = await render("/api/contact", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ need: "unknown" }),
+  });
+
+  assert.equal(response.status, 400);
+  assert.match(await response.text(), /champs obligatoires/i);
+});
+
+for (const need of ["web-growth-tools", "photo-video", "identity-content"]) {
+  test(`accepts the whitelisted contact category ${need}`, async () => {
+    const response = await render("/api/contact", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        need,
+        name: "Test Contact",
+        company: "Entreprise Test",
+        email: "contact@example.com",
+        phone: "",
+        description: "Une demande suffisamment détaillée pour le test.",
+        consent: true,
+        contactUrl: "anti-spam",
+      }),
+    });
+
+    assert.equal(response.status, 200);
   });
 }

@@ -543,11 +543,11 @@ export const pageContentByRoute: Record<PageRoute, PageContent> = {
       {
         heading: "Responsable du traitement et données collectées",
         body:
-          "Le responsable du traitement est [À compléter — identité juridique, adresse et coordonnées de contact]. Selon les fonctions effectivement activées, le site peut recueillir les informations transmises dans un formulaire, lors d’une prise de rendez-vous ou dans un document joint, ainsi que des données techniques soumises au consentement lorsqu’il est requis.",
+          "Le responsable du traitement est [À compléter — identité juridique, adresse et coordonnées de contact]. Le formulaire recueille uniquement les informations nécessaires pour comprendre la demande et la transmettre au bon interlocuteur, ainsi que les données techniques indispensables à sa sécurité.",
         bullets: [
-          "Identité et coordonnées : nom, entreprise, e-mail et téléphone",
-          "Informations sur le projet : secteur, localisation, objectif, budget, échéance et message",
-          "Site actuel et fichier facultatif transmis par l’utilisateur",
+          "Identité et coordonnées : nom, entreprise, e-mail et téléphone facultatif",
+          "Informations sur le projet : catégorie de besoin et message libre",
+          "Données techniques strictement nécessaires à la protection du formulaire contre les abus",
           "Données de navigation uniquement selon les outils réellement déployés et les choix de consentement",
         ],
       },
@@ -569,7 +569,7 @@ export const pageContentByRoute: Record<PageRoute, PageContent> = {
         bullets: [
           "Durée de conservation des demandes sans suite : [À compléter]",
           "Durée de conservation des données clients et obligations d’archivage : [À compléter]",
-          "Prestataires de formulaire, e-mail, rendez-vous, analytics, CRM et hébergement : [À compléter selon la production]",
+          "Prestataires d’e-mail et d’hébergement : [À compléter selon la configuration de production]",
           "Mesures d’accès, de sauvegarde et de protection : [À documenter]",
         ],
       },
