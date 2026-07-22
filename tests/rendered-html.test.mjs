@@ -31,7 +31,10 @@ test("renders the agency homepage and prioritizes the requested projects", async
   const html = await response.text();
   assert.match(html, /visibilité augmentée/i);
   assert.match(html, /01 — Qui sommes-nous \?/i);
-  assert.match(html, /03 expertises · 01 direction/i);
+  assert.match(html, /Web .* image .* acquisition/i);
+  assert.match(html, /class="brand-hour">3h</i);
+  assert.match(html, /class="brand-minute">36</i);
+  assert.doesNotMatch(html, /brand-spark|Le cadre de travail|Ce qui doit rester clair/i);
 
   const orderedCaseLinks = [
     "/realisations/plum",

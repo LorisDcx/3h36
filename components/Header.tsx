@@ -4,13 +4,13 @@ import { navigation } from "@/lib/site-data";
 export function Logo() {
   return (
     <span className="brand" aria-hidden="true">
-      <span className="brand-mark" aria-hidden="true">
-        <span className="brand-time">3h36</span>
-        <span className="brand-spark">+</span>
+      <span className="brand-wordmark">
+        <span className="brand-hour">3h</span>
+        <span className="brand-minute">36</span>
       </span>
-      <span className="brand-copy" aria-hidden="true">
+      <span className="brand-copy">
         <strong className="brand-agency">Agency</strong>
-        <span className="brand-signature">03 expertises · 01 direction</span>
+        <span className="brand-signature">Web · image · acquisition</span>
       </span>
     </span>
   );
@@ -33,7 +33,8 @@ export function Header() {
         </nav>
 
         <Link className="button button-small header-cta" href="/contact">
-          Parler de votre projet
+          <span>Parler de votre projet</span>
+          <span className="header-cta-arrow" aria-hidden="true">↗</span>
         </Link>
 
         <details className="mobile-menu">

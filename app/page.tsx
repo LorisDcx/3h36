@@ -6,7 +6,6 @@ import {
   collectiveRoles,
   expertises,
   faqItems,
-  guarantees,
   monthlyPlans,
   offers,
   processSteps,
@@ -270,18 +269,6 @@ export default function Home() {
               </li>
             ))}
           </ol>
-        </div>
-      </section>
-
-      <section className="guarantees-section" aria-labelledby="guarantees-title">
-        <div className="shell guarantees-grid">
-          <div>
-            <p className="kicker">Le cadre de travail</p>
-            <h2 id="guarantees-title">Ce qui doit rester clair, même quand le projet devient complexe.</h2>
-          </div>
-          <ul className="guarantee-list">
-            {guarantees.map((guarantee, index) => <li key={guarantee}><span>{String(index + 1).padStart(2, "0")}</span>{guarantee}</li>)}
-          </ul>
         </div>
       </section>
 

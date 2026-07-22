@@ -426,17 +426,6 @@ export const collectiveRoles = [
   },
 ] as const;
 
-export const guarantees = [
-  "Un devis et un périmètre compréhensibles avant de commencer",
-  "Un interlocuteur principal pendant tout le projet",
-  "Des étapes et validations visibles, sans effet tunnel",
-  "La propriété de vos comptes, outils et livrables prévus au contrat",
-  "Une documentation et une transmission à la livraison",
-  "Aucun abonnement imposé après la mise en ligne",
-  "Des coûts tiers annoncés séparément",
-  "Des mesures utiles, sans promesse de résultat invérifiable",
-] as const;
-
 export const faqItems = [
   {
     question: "Combien coûte un projet avec 3h36 agency ?",

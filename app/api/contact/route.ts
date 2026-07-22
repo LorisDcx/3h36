@@ -1,17 +1,16 @@
 const NEEDS = {
   "web-growth-tools": {
     label: "Site web, acquisition & outils",
-    recipientKey: "CONTACT_EMAIL_WEB_ACQUISITION",
   },
   "photo-video": {
     label: "Photo & vidéo",
-    recipientKey: "CONTACT_EMAIL_PHOTO_VIDEO",
   },
   "identity-content": {
     label: "Identité & contenu",
-    recipientKey: "CONTACT_EMAIL_IDENTITY_CONTENT",
   },
 } as const;
+
+const DEFAULT_CONTACT_EMAIL = "Lorisdcx.pro@gmail.com";
 
 type NeedKey = keyof typeof NEEDS;
 
@@ -102,7 +101,7 @@ export async function POST(request: Request) {
   }
 
   const need = NEEDS[payload.need];
-  const recipient = process.env[need.recipientKey]?.trim();
+  const recipient = process.env.CONTACT_EMAIL?.trim() || DEFAULT_CONTACT_EMAIL;
   const apiKey = process.env.RESEND_API_KEY?.trim();
   const from = process.env.CONTACT_FROM_EMAIL?.trim();
 
