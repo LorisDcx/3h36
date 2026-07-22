@@ -17,6 +17,11 @@ export const metadata: Metadata = {
     template: "%s — 3h36 Agency",
   },
   description: SITE_DESCRIPTION,
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
   keywords: [
     "agence web Savoie",
     "collectif créatif Savoie",
