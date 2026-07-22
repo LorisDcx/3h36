@@ -2485,9 +2485,11 @@ h3 {
 
 .agency-hero {
   position: relative;
-  min-height: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-height: calc(100svh - 80px);
   overflow: hidden;
-  padding: clamp(32px, 4.2vw, 52px) 0 0;
+  padding: 0;
   background:
     radial-gradient(circle at 79% 17%, rgba(229, 236, 232, 0.95), transparent 34%),
     linear-gradient(135deg, #fffdf9 0%, #fbf7f1 57%, #f6eee5 100%);
@@ -2518,15 +2520,17 @@ h3 {
 .agency-hero-grid {
   position: relative;
   z-index: 1;
+  align-self: stretch;
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(400px, 0.82fr);
   gap: clamp(40px, 5vw, 70px);
   align-items: center;
-  padding-bottom: clamp(24px, 3vw, 36px);
+  padding-top: clamp(34px, 5vh, 60px);
+  padding-bottom: clamp(30px, 4vh, 48px);
 }
 
 .agency-hero-copy {
-  max-width: 680px;
+  max-width: 720px;
 }
 
 .agency-hero .eyebrow {
@@ -2534,9 +2538,9 @@ h3 {
 }
 
 .agency-hero h1 {
-  max-width: 680px;
+  max-width: 720px;
   margin-bottom: 18px;
-  font-size: clamp(2.85rem, 4.4vw, 4.9rem);
+  font-size: clamp(3rem, 4.8vw, 5.35rem);
   line-height: 0.98;
 }
 
@@ -2559,15 +2563,15 @@ h3 {
 
 .hero-agency-visual {
   position: relative;
-  aspect-ratio: 1.16;
-  min-height: 430px;
+  aspect-ratio: 1.08;
+  min-height: 470px;
   margin: 0;
   overflow: hidden;
   border: 8px solid rgba(255, 255, 255, 0.88);
   border-radius: 30px;
   background: var(--sage);
   box-shadow: 0 30px 78px rgba(16, 43, 58, 0.17);
-  transform: translateY(-8px);
+  transform: translateY(-10px);
 }
 
 .hero-agency-visual::after {
@@ -3818,11 +3822,11 @@ h3 {
   }
 
   .agency-hero h1 {
-    font-size: clamp(2.85rem, 5.2vw, 4.35rem);
+    font-size: clamp(3rem, 5.5vw, 4.65rem);
   }
 
   .hero-agency-visual {
-    min-height: 400px;
+    min-height: 440px;
   }
 
   .intro-grid {
@@ -3849,6 +3853,7 @@ h3 {
   }
 
   .agency-hero {
+    display: block;
     min-height: 0;
     padding-top: 42px;
   }
@@ -3867,6 +3872,11 @@ h3 {
 
   .agency-hero-copy {
     max-width: none;
+  }
+
+  .agency-hero-grid {
+    padding-top: 0;
+    padding-bottom: 30px;
   }
 
   .hero-agency-visual {
