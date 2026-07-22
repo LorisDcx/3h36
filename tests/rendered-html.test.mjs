@@ -118,6 +118,23 @@ test("renders the compact two-step contact journey with three needs", async () =
   assert.doesNotMatch(html, /Google Ads<\/span>|Budget indicatif|Accompagnement mensuel/i);
 });
 
+test("does not load Google Analytics before consent", async () => {
+  const response = await render("/");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  const analyticsEnabled = /class="analytics-consent"/i.test(html);
+
+  assert.doesNotMatch(html, /googletagmanager\.com\/gtag/i);
+  if (analyticsEnabled) {
+    assert.match(html, /Continuer sans mesure/i);
+    assert.match(html, /Accepter la mesure/i);
+    assert.match(html, /Gérer mes cookies/i);
+  } else {
+    assert.doesNotMatch(html, /Gérer mes cookies/i);
+  }
+});
+
 test("rejects an invalid contact payload on the server", async () => {
   const response = await render("/api/contact", {
     method: "POST",

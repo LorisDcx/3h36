@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { contact, footerLinks } from "@/lib/site-data";
+import { AnalyticsConsentButton } from "./Analytics";
 import { Logo } from "./Header";
 
 export function Footer() {
@@ -38,7 +39,10 @@ export function Footer() {
       </div>
       <div className="shell footer-bottom">
         <p>© {new Date().getFullYear()} 3h36 Agency</p>
-        <p>Image claire · site solide · visibilité augmentée</p>
+        <div>
+          <p>Image claire · site solide · visibilité augmentée</p>
+          <AnalyticsConsentButton />
+        </div>
       </div>
     </footer>
   );

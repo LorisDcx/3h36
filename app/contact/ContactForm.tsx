@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { getLeadAttribution, trackAnalyticsEvent } from "@/lib/analytics-client";
 import {
   type ChangeEvent,
   type FormEvent,
@@ -59,6 +60,7 @@ export default function ContactForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const confirmationRef = useRef<HTMLElement>(null);
+  const formStartedRef = useRef(false);
 
   useEffect(() => {
     if (status === "success") confirmationRef.current?.focus();
@@ -73,6 +75,13 @@ export default function ContactForm() {
 
   const goToNextStep = (event: FormEvent<HTMLButtonElement>) => {
     if (!event.currentTarget.form?.reportValidity()) return;
+    if (!formStartedRef.current) {
+      trackAnalyticsEvent("contact_form_start", {
+        form_name: "project_contact",
+        need_category: values.need,
+      });
+      formStartedRef.current = true;
+    }
     setStep(2);
   };
 
@@ -85,7 +94,7 @@ export default function ContactForm() {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...values, attribution: getLeadAttribution() }),
       });
       const payload = await response.json().catch(() => null) as { message?: string } | null;
 
@@ -93,8 +102,16 @@ export default function ContactForm() {
         throw new Error(payload?.message || "L’envoi n’a pas pu aboutir. Réessayez dans un instant.");
       }
 
+      trackAnalyticsEvent("generate_lead", {
+        form_name: "project_contact",
+        need_category: values.need,
+      });
       setStatus("success");
     } catch (error) {
+      trackAnalyticsEvent("contact_form_error", {
+        form_name: "project_contact",
+        need_category: values.need,
+      });
       setStatus("error");
       setErrorMessage(
         error instanceof Error
@@ -108,6 +125,7 @@ export default function ContactForm() {
     setValues(INITIAL_VALUES);
     setStatus("idle");
     setErrorMessage("");
+    formStartedRef.current = false;
     setStep(1);
   };
 

@@ -92,6 +92,26 @@ actions tied to the current ChatGPT user. Leave public content anonymous.
 - `npm test`: build the starter and verify its rendered loading skeleton
 - `npm run db:generate`: generate Drizzle migrations after schema changes
 
+## Production analytics
+
+Google Analytics remains fully inactive until `NEXT_PUBLIC_GA_MEASUREMENT_ID`
+contains a valid GA4 web stream ID (`G-...`). Add it to the Vercel Preview and
+Production environments, then redeploy.
+
+Before activation, configure the GA4 property as follows:
+
+- keep Google Signals, advertising personalisation and user-provided data off;
+- in Enhanced Measurement, disable browser-history page changes and form
+  interactions because the site sends its own sanitised events;
+- set event-level data retention to 2 months;
+- test that no Google request is sent before consent or after refusal.
+
+The site records one manual `page_view` per route, contact-link clicks,
+`contact_form_start`, `contact_form_error` and `generate_lead` after a successful
+contact API response. It never sends form fields to GA4. Campaign attribution is
+limited to the landing path, external referrer origin and allowlisted UTM
+parameters, and is attached to the Resend e-mail only after analytics consent.
+
 ## Learn More
 
 - [vinext Documentation](https://github.com/cloudflare/vinext)

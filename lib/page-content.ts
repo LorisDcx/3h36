@@ -533,7 +533,7 @@ export const pageContentByRoute: Record<PageRoute, PageContent> = {
     eyebrow: "Protection des données personnelles",
     title: "Politique de confidentialité",
     description:
-      "Cette trame explique comment les données peuvent être collectées et utilisées. Elle devra être ajustée aux formulaires, prestataires et durées réellement retenus avant la mise en ligne.",
+      "Cette politique présente les données traitées par le formulaire de contact et, uniquement après accord, par la mesure d’audience du site.",
     seo: {
       title: "Politique de confidentialité | 3h36 Agency",
       description:
@@ -548,7 +548,8 @@ export const pageContentByRoute: Record<PageRoute, PageContent> = {
           "Identité et coordonnées : nom, entreprise, e-mail et téléphone facultatif",
           "Informations sur le projet : catégorie de besoin et message libre",
           "Données techniques strictement nécessaires à la protection du formulaire contre les abus",
-          "Données de navigation uniquement selon les outils réellement déployés et les choix de consentement",
+          "Après accord analytics : page consultée, clic vers le contact, étape et résultat du formulaire, sans transmettre les champs saisis",
+          "Attribution après accord : page d’entrée, origine du site référent et paramètres UTM autorisés, conservés dans le navigateur pour la session puis joints à la demande ; les valeurs UTM ne sont pas envoyées à Google Analytics",
         ],
       },
       {
@@ -565,12 +566,14 @@ export const pageContentByRoute: Record<PageRoute, PageContent> = {
       {
         heading: "Destinataires, conservation et sécurité",
         body:
-          "L’accès doit être limité aux personnes autorisées et aux prestataires nécessaires au fonctionnement du service. La liste des sous-traitants, leurs lieux de traitement, les éventuels transferts hors Espace économique européen et les garanties associées sont à documenter selon les outils retenus.",
+          "L’accès est limité aux personnes autorisées et aux prestataires nécessaires : Vercel pour l’hébergement, Resend pour l’envoi du formulaire et Google Analytics 4 pour la mesure consentie. Google peut traiter des données hors de l’Espace économique européen selon les garanties prévues par ses conditions de traitement.",
         bullets: [
           "Durée de conservation des demandes sans suite : [À compléter]",
           "Durée de conservation des données clients et obligations d’archivage : [À compléter]",
-          "Prestataires d’e-mail et d’hébergement : [À compléter selon la configuration de production]",
-          "Mesures d’accès, de sauvegarde et de protection : [À documenter]",
+          "Choix analytics mémorisé pendant 6 mois ; attribution locale effacée à la fin de la session ou au retrait",
+          "Copie de l’attribution jointe à une demande : même conservation que la demande concernée [durée à compléter]",
+          "Cookies Google Analytics _ga et _ga_* : durée réglée à 6 mois sans prolongation automatique à chaque visite",
+          "Données événementielles GA4 : propriété à régler sur 2 mois avant l’activation en production",
         ],
       },
       {
@@ -590,7 +593,7 @@ export const pageContentByRoute: Record<PageRoute, PageContent> = {
     eyebrow: "Vos choix de navigation",
     title: "Gestion des cookies",
     description:
-      "Cette page présente les catégories de traceurs susceptibles d’être utilisées et la manière de les accepter, les refuser ou modifier votre choix.",
+      "Cette page décrit les traceurs réellement prévus pour la mesure du site et la manière de les accepter, les refuser ou modifier votre choix.",
     seo: {
       title: "Gestion des cookies | 3h36 Agency",
       description:
@@ -600,22 +603,23 @@ export const pageContentByRoute: Record<PageRoute, PageContent> = {
       {
         heading: "Cookies strictement nécessaires",
         body:
-          "Certains traceurs peuvent être indispensables au fonctionnement, à la sécurité ou à la mémorisation de vos choix de consentement. Ils ne sont pas utilisés pour mesurer l’audience ou personnaliser une publicité et ne peuvent pas être désactivés depuis le gestionnaire lorsque leur dépôt est strictement nécessaire.",
+          "Le site mémorise localement votre choix analytics pendant 6 mois afin de ne pas vous solliciter à chaque page. Cette préférence n’est pas utilisée pour mesurer l’audience, établir un profil ou personnaliser une publicité.",
       },
       {
-        heading: "Mesure d’audience et services optionnels",
+        heading: "Google Analytics 4, uniquement après accord",
         body:
-          "Des outils tels que Google Analytics 4 ou Microsoft Clarity ne doivent être mentionnés ici que s’ils sont réellement activés. Lorsqu’un consentement est requis, aucun traceur optionnel ne doit être déposé avant votre accord.",
+          "Lorsque la propriété Google Analytics 4 est configurée, son script ne se charge qu’après votre acceptation. Il mesure les pages consultées, les clics vers le contact et le démarrage, la réussite ou l’échec technique du formulaire. Les noms, e-mails, téléphones, entreprises et messages saisis ne lui sont jamais envoyés.",
         bullets: [
-          "Outil de mesure d’audience effectivement utilisé : [À compléter]",
-          "Finalité, fournisseur, durée et nom des cookies : [À compléter]",
-          "Services externes ou publicitaires éventuellement intégrés : [À compléter]",
+          "Fournisseur : Google Analytics 4 (Google Ireland Limited)",
+          "Cookies possibles : _ga et _ga_*, réglés pour expirer après 6 mois sans prolongation automatique",
+          "Attribution commerciale hors GA4 : page d’entrée sans paramètres libres, origine du référent et paramètres UTM autorisés ; stockage local limité à la session, puis copie jointe au formulaire envoyé",
+          "Google Signals, personnalisation publicitaire et identifiants marketing désactivés pour ce dispositif",
         ],
       },
       {
         heading: "Accepter, refuser ou changer d’avis",
         body:
-          "Vous pouvez accepter ou refuser les traceurs optionnels avec le même niveau de simplicité, puis modifier votre choix à tout moment. Les durées de conservation du consentement et des traceurs doivent être renseignées selon les outils retenus et la réglementation applicable.",
+          "Vous pouvez accepter ou refuser la mesure avec le même niveau de simplicité. Le bouton « Gérer mes cookies » présent dans le pied de page permet de rouvrir ce choix à tout moment. Un retrait bloque les prochains envois, supprime les cookies Google Analytics accessibles au site et efface l’attribution locale de la session ; il n’efface pas automatiquement une demande déjà reçue.",
       },
     ],
   },
