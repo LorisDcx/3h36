@@ -33,17 +33,23 @@ const headerMenus = [
     description: "Sites, image de marque et acquisition réunis dans une même direction.",
     columns: [
       {
-        title: "Créer",
+        title: "Sites & outils",
         links: [
           { label: "Site vitrine", href: "/site-vitrine", description: "Une présence claire et crédible." },
           { label: "Site & acquisition", href: "/site-acquisition", description: "Un site pensé pour générer des demandes." },
+          { label: "Refonte de site PME", href: "/refonte-site-internet-pme-savoie", description: "Moderniser sans perdre les acquis." },
           { label: "Outils métiers", href: "/solutions-metiers", description: "Des interfaces utiles à votre activité." },
+        ],
+      },
+      {
+        title: "Image",
+        links: [
           { label: "Identité & contenus", href: "/identite-visuelle-chambery", description: "Une image cohérente et reconnaissable." },
           { label: "Photo & vidéo", href: "/photo-video-entreprise-savoie", description: "Des contenus qui prouvent votre savoir-faire." },
         ],
       },
       {
-        title: "Développer",
+        title: "Visibilité",
         links: [
           { label: "Référencement SEO", href: "/referencement-seo", description: "Être trouvé sur les recherches utiles." },
           { label: "Visibilité GEO", href: "/geo", description: "Devenir une source lisible par les IA." },
@@ -294,6 +300,7 @@ function DesktopDropdown({
   onClose: () => void;
 }) {
   const dropdownId = `desktop-${menu.id}-navigation`;
+  const compact = menu.columns.reduce((total, column) => total + column.links.length, 0) <= 4;
 
   return (
     <div
@@ -307,6 +314,7 @@ function DesktopDropdown({
       <button
         className={`nav-menu-trigger${active ? " is-active" : ""}`}
         type="button"
+        aria-haspopup="true"
         aria-controls={dropdownId}
         aria-expanded={open}
         onClick={onToggle}
@@ -316,7 +324,7 @@ function DesktopDropdown({
         <span className="nav-menu-chevron" aria-hidden="true">⌄</span>
       </button>
 
-      <div id={dropdownId} className="nav-dropdown" aria-hidden={!open}>
+      <div id={dropdownId} className={`nav-dropdown${compact ? " nav-dropdown-compact" : ""}`} aria-hidden={!open}>
         <div className="nav-dropdown-inner shell">
           <Link className="nav-dropdown-overview" href={menu.href} onClick={onClose}>
             <span className="nav-dropdown-eyebrow">{menu.eyebrow}</span>
