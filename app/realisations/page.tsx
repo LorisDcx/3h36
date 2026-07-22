@@ -23,9 +23,10 @@ const projectListSchema = {
   itemListElement: projects.map((project, index) => ({
     "@type": "ListItem",
     position: index + 1,
-    url: project.href,
+    url: `/realisations/${project.slug}`,
     name: project.name,
     description: project.solution,
+    sameAs: project.href,
   })),
 };
 
@@ -65,14 +66,14 @@ export default function RealisationsPage() {
               <h2 id="portfolio-title">Du studio local à l’outil métier.</h2>
             </div>
             <p>
-              Les aperçus ouvrent les sites actuellement en ligne. Le détail distingue
-              volontairement le besoin initial, l’objectif et la solution proposée.
+              Chaque aperçu ouvre une étude de cas : contexte, parti pris et périmètre
+              livré. Le site en ligne reste accessible séparément pour voir le projet réel.
             </p>
           </div>
 
           <div className="real-project-grid">
             {projects.map((project, index) => {
-              const isWide = index === 0 || index === 5;
+              const isWide = index === 0 || index === 3;
 
               return (
                 <article
@@ -81,12 +82,10 @@ export default function RealisationsPage() {
                   }`}
                   key={project.name}
                 >
-                  <a
+                  <Link
                     className="real-project-visual"
-                    href={project.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={`Visiter le site ${project.name} (nouvel onglet)`}
+                    href={`/realisations/${project.slug}`}
+                    aria-label={`Voir l’étude de cas ${project.name}`}
                   >
                     <Image
                       src={project.image}
@@ -96,38 +95,35 @@ export default function RealisationsPage() {
                       preload={index === 0}
                       unoptimized
                     />
-                    <span aria-hidden="true">↗</span>
-                  </a>
+                    <span aria-hidden="true">→</span>
+                  </Link>
 
                   <div className="real-project-copy">
-                    <div>
+                    <div className="real-project-meta">
                       <span>{project.type}</span>
                       <span>{project.sector}</span>
                       <span>{project.status}</span>
                     </div>
-                    <h3>{project.name}</h3>
+                    <h3><Link href={`/realisations/${project.slug}`}>{project.name}</Link></h3>
                     <p>
-                      <strong>Contexte.</strong> {project.context}
+                      <strong>Enjeu.</strong> {project.context}
                     </p>
                     <p>
-                      <strong>Objectif.</strong> {project.objective}
-                    </p>
-                    <p>
-                      <strong>Solution.</strong> {project.solution}
+                      <strong>Réponse.</strong> {project.solution}
                     </p>
                     <ul aria-label={`Périmètre du projet ${project.name}`}>
                       {project.levers.map((lever) => (
                         <li key={lever}>{lever}</li>
                       ))}
                     </ul>
-                    <a
-                      className="text-link"
-                      href={project.href}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Voir {project.name} en ligne <span aria-hidden="true">↗</span>
-                    </a>
+                    <div className="real-project-actions">
+                      <Link className="text-link" href={`/realisations/${project.slug}`}>
+                        Lire l’étude de cas <span aria-hidden="true">→</span>
+                      </Link>
+                      <a className="project-site-link" href={project.href} target="_blank" rel="noreferrer">
+                        Voir le site <span aria-hidden="true">↗</span>
+                      </a>
+                    </div>
                   </div>
                 </article>
               );

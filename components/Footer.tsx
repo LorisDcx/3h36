@@ -38,7 +38,7 @@ export function Footer() {
       </div>
       <div className="shell footer-bottom">
         <p>© {new Date().getFullYear()} 3h36 Agency</p>
-        <p>Image claire · site solide · visibilité utile</p>
+        <p>Image claire · site solide · visibilité augmentée</p>
       </div>
     </footer>
   );

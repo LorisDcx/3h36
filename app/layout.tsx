@@ -18,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
       template: "%s — 3h36 Agency",
     },
     description:
-      "Trois indépendants réunis pour concevoir identités, sites, contenus et actions de visibilité utiles. Collectif basé en Savoie, projets locaux et à distance.",
+      "Trois indépendants réunis pour concevoir identités, sites, contenus et actions de visibilité pilotables. Collectif basé en Savoie, projets locaux et à distance.",
     keywords: [
       "agence web Savoie",
       "collectif créatif Savoie",
@@ -33,14 +33,14 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       locale: "fr_FR",
       siteName: "3h36 Agency",
-      title: "Une image claire, un site solide et une visibilité utile.",
+      title: "Une image claire, un site solide et une visibilité augmentée.",
       description:
         "Un collectif web, design et acquisition en Savoie. Trois expertises complémentaires, un interlocuteur principal.",
       images: [{ url: socialImage, width: 1200, height: 630, alt: "3h36 agency — collectif web, design et acquisition en Savoie" }],
     },
     twitter: {
       card: "summary_large_image",
-      title: "Une image claire, un site solide et une visibilité utile.",
+      title: "Une image claire, un site solide et une visibilité augmentée.",
       description:
         "Collectif web, design et acquisition en Savoie.",
       images: [socialImage],

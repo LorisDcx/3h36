@@ -3,10 +3,15 @@ import { navigation } from "@/lib/site-data";
 
 export function Logo() {
   return (
-    <span className="brand" aria-label="3h36 Agency">
-      <span className="brand-time">3h36</span>
-      <span className="brand-agency">agency</span>
-      <span className="brand-signature">collectif web & communication</span>
+    <span className="brand" aria-hidden="true">
+      <span className="brand-mark" aria-hidden="true">
+        <span className="brand-time">3h36</span>
+        <span className="brand-spark">+</span>
+      </span>
+      <span className="brand-copy" aria-hidden="true">
+        <strong className="brand-agency">Agency</strong>
+        <span className="brand-signature">03 expertises · 01 direction</span>
+      </span>
     </span>
   );
 }

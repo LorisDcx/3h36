@@ -118,20 +118,26 @@ export function ProjectCarousel() {
               aria-label={`${index + 1} sur ${projects.length} · ${project.name}`}
               key={project.name}
             >
-              <a
+              <Link
                 className="carousel-project-visual"
-                href={project.href}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`Voir ${project.name} en ligne`}
+                href={`/realisations/${project.slug}`}
+                aria-label={`Voir l’étude de cas ${project.name}`}
               >
                 <Image src={project.image} alt={project.imageAlt} fill sizes="(max-width: 620px) 88vw, 560px" unoptimized />
-                <span aria-hidden="true">↗</span>
-              </a>
+                <span aria-hidden="true">→</span>
+              </Link>
               <div className="carousel-project-copy">
                 <p><span>{project.type}</span><span>{project.sector}</span></p>
-                <h3>{project.name}</h3>
-                <p>{project.solution}</p>
+                <h3><Link href={`/realisations/${project.slug}`}>{project.name}</Link></h3>
+                <p className="carousel-project-description">{project.solution}</p>
+                <div className="carousel-project-actions">
+                  <Link className="text-link" href={`/realisations/${project.slug}`}>
+                    Lire l’étude de cas <span aria-hidden="true">→</span>
+                  </Link>
+                  <a className="project-site-link" href={project.href} target="_blank" rel="noreferrer">
+                    Voir le site <span aria-hidden="true">↗</span>
+                  </a>
+                </div>
               </div>
             </article>
           ))}
@@ -162,7 +168,7 @@ export function ProjectCarousel() {
 
       <div className="project-carousel-footer">
         <p>Défilement automatique · pause au survol · swipe sur mobile</p>
-        <Link className="text-link" href="/realisations">Voir les 8 projets en détail <span aria-hidden="true">↗</span></Link>
+        <Link className="text-link" href="/realisations">Voir les 8 projets en détail <span aria-hidden="true">→</span></Link>
       </div>
     </div>
   );

@@ -26,12 +26,10 @@ const faqSchema = {
 
 function ClientLogo({ client, duplicate = false }: { client: ClientMark; duplicate?: boolean }) {
   return (
-    <a
+    <Link
       className="client-mark"
-      href={client.href}
-      target="_blank"
-      rel="noreferrer"
-      aria-label={duplicate ? undefined : `Voir le site ${client.name}`}
+      href={`/realisations/${client.slug}`}
+      aria-label={duplicate ? undefined : `Voir l’étude de cas ${client.name}`}
       aria-hidden={duplicate || undefined}
       tabIndex={duplicate ? -1 : undefined}
     >
@@ -45,7 +43,7 @@ function ClientLogo({ client, duplicate = false }: { client: ClientMark; duplica
           {client.wordmark}
         </strong>
       )}
-    </a>
+    </Link>
   );
 }
 
@@ -59,7 +57,7 @@ export default function Home() {
           <div className="agency-hero-copy">
             <p className="eyebrow">Collectif web, design & acquisition en Savoie</p>
             <h1 id="hero-title">
-              Une image claire, un site solide, une <em>visibilité utile.</em>
+              Une image claire, un site solide, une <em>visibilité augmentée.</em>
             </h1>
             <p className="agency-hero-lead">
               Trois indépendants réunissent stratégie, design et acquisition pour construire des marques
@@ -93,7 +91,7 @@ export default function Home() {
         <section className="client-belt" aria-label="Projets et marques accompagnés">
           <div className="shell client-belt-heading">
             <p>Projets sur lesquels nous avons travaillé</p>
-            <span>Sites actuellement en ligne</span>
+            <span>Découvrir les études de cas</span>
           </div>
           <div className="client-marquee">
             <div className="client-track">
@@ -109,15 +107,34 @@ export default function Home() {
       </section>
 
       <section className="agency-intro" aria-labelledby="intro-title">
-        <div className="shell intro-grid">
-          <p className="section-index">01 — Ce que nous faisons</p>
-          <div>
-            <p className="kicker">Une équipe dimensionnée pour le projet</p>
-            <h2 id="intro-title">La précision d’une agence, avec la souplesse d’un collectif.</h2>
+        <div className="shell intro-heading-row">
+          <div className="intro-label">
+            <p className="section-index">01 — Qui sommes-nous ?</p>
+            <p className="kicker">Trois indépendants, une seule direction</p>
           </div>
-          <p className="intro-copy">
-            Une marque n’a pas besoin d’empiler les prestataires. Elle a besoin d’un cap, des bonnes compétences au bon moment et de décisions qui restent compréhensibles. Le collectif relie stratégie, création et diffusion dans un même dispositif.
+          <h2 id="intro-title">
+            La précision d’une agence, <em>la souplesse d’un collectif.</em>
+          </h2>
+        </div>
+        <div className="shell intro-principles">
+          <p className="intro-lead">
+            Nous réunissons stratégie, création et diffusion autour du même cap, avec les bonnes compétences au bon moment.
           </p>
+          <article>
+            <span>01</span>
+            <h3>Un cap commun</h3>
+            <p>Le besoin, les publics et les priorités sont clarifiés avant de produire.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Une équipe sur mesure</h3>
+            <p>Chaque expertise intervient là où elle apporte réellement de la valeur.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Des décisions lisibles</h3>
+            <p>Le périmètre, les arbitrages et les prochaines étapes restent compréhensibles.</p>
+          </article>
         </div>
       </section>
 
