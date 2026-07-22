@@ -9,7 +9,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const host = requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host") ?? "localhost:4173";
   const protocol = requestHeaders.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
   const origin = `${protocol}://${host}`;
-  const socialImage = new URL("/og-v2.png", origin).toString();
+  const socialImage = new URL("/og-v3.png", origin).toString();
 
   return {
     metadataBase: new URL(origin),
@@ -36,7 +36,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: "Une image claire, un site solide et une visibilité utile.",
       description:
         "Un collectif web, design et acquisition en Savoie. Trois expertises complémentaires, un interlocuteur principal.",
-      images: [{ url: socialImage, width: 1536, height: 1024, alt: "3h36 agency — collectif web, design et acquisition en Savoie" }],
+      images: [{ url: socialImage, width: 1200, height: 630, alt: "3h36 agency — collectif web, design et acquisition en Savoie" }],
     },
     twitter: {
       card: "summary_large_image",

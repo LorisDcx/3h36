@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { ProjectCarousel } from "@/components/ProjectCarousel";
 import {
   clientMarks,
   collectiveRoles,
@@ -9,7 +10,6 @@ import {
   monthlyPlans,
   offers,
   processSteps,
-  projects,
 } from "@/lib/site-data";
 
 type ClientMark = (typeof clientMarks)[number];
@@ -59,18 +59,18 @@ export default function Home() {
           <div className="agency-hero-copy">
             <p className="eyebrow">Collectif web, design & acquisition en Savoie</p>
             <h1 id="hero-title">
-              Faire émerger une image claire, un site solide et une <em>visibilité utile.</em>
+              Une image claire, un site solide, une <em>visibilité utile.</em>
             </h1>
             <p className="agency-hero-lead">
-              3h36 agency réunit trois indépendants complémentaires pour concevoir des identités, des sites,
-              des contenus et des actions de visibilité qui servent réellement l’activité de ses clients.
+              Trois indépendants réunissent stratégie, design et acquisition pour construire des marques
+              cohérentes, des outils simples à comprendre et une visibilité que l’on peut piloter.
             </p>
             <div className="cta-row">
               <Link className="button" href="/contact">
                 Parler de votre projet <span aria-hidden="true">↗</span>
               </Link>
-              <a className="button button-secondary" href="#offres">
-                Voir les offres
+              <a className="button button-secondary" href="#expertises">
+                Découvrir les expertises
               </a>
             </div>
             <dl className="hero-facts" aria-label="Le collectif en trois repères">
@@ -80,27 +80,27 @@ export default function Home() {
             </dl>
           </div>
 
-          <div className="hero-projects" aria-label="Sélection de projets réels">
-            <a className="hero-project hero-project-main" href="https://www.monaviszen.fr/" target="_blank" rel="noreferrer">
-              <Image src="/images/projects/aviszen-home-web.webp" alt="Interface du projet AvisZen" fill sizes="(max-width: 900px) 75vw, 38vw" preload unoptimized />
-              <span><strong>AvisZen</strong><small>Plateforme d’e-réputation</small></span>
-            </a>
-            <a className="hero-project hero-project-side" href="https://flowsaver.vercel.app/" target="_blank" rel="noreferrer">
-              <Image src="/images/projects/flowsaver-home-web.webp" alt="Interface du projet FlowSaver" fill sizes="(max-width: 900px) 43vw, 22vw" loading="eager" unoptimized />
-              <span><strong>FlowSaver</strong><small>Produit SaaS</small></span>
-            </a>
-            <a className="hero-project hero-project-small" href="https://plum-dun-six.vercel.app/" target="_blank" rel="noreferrer">
-              <Image src="/images/projects/plum-home-web.webp" alt="Interface du projet Plum" fill sizes="(max-width: 900px) 52vw, 25vw" loading="eager" unoptimized />
-              <span><strong>Plum</strong><small>Outil éditorial</small></span>
-            </a>
-          </div>
+          <figure className="hero-agency-visual">
+            <Image
+              src="/images/agency/hero-collective-v2.webp"
+              alt="Table de travail réunissant stratégie web, création graphique et production photo-vidéo"
+              fill
+              sizes="(max-width: 900px) 100vw, 47vw"
+              preload
+              unoptimized
+            />
+            <figcaption>
+              <strong>Trois savoir-faire, une direction commune</strong>
+              <span>Web</span><span>Design</span><span>Acquisition</span>
+            </figcaption>
+          </figure>
         </div>
       </section>
 
       <section className="client-belt" aria-label="Projets et marques accompagnés">
         <div className="shell client-belt-heading">
-          <p>Des univers différents, une même exigence de clarté</p>
-          <span>Projets en ligne</span>
+          <p>Projets sur lesquels nous avons travaillé</p>
+          <span>Sites actuellement en ligne</span>
         </div>
         <div className="client-marquee">
           <div className="client-track">
@@ -111,6 +111,20 @@ export default function Home() {
               {clientMarks.map((client) => <ClientLogo client={client} duplicate key={`duplicate-${client.name}`} />)}
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="agency-section projects-section projects-section-featured" id="realisations" aria-labelledby="projects-title">
+        <div className="shell">
+          <div className="split-heading projects-heading">
+            <div>
+              <p className="section-index">04 — Réalisations</p>
+              <p className="kicker">Sites et produits réellement en ligne</p>
+              <h2 id="projects-title">Des projets visibles, pas des promesses.</h2>
+            </div>
+            <p>La sélection avance seule. Survolez-la pour la mettre en pause, utilisez les flèches ou faites-la glisser.</p>
+          </div>
+          <ProjectCarousel />
         </div>
       </section>
 
@@ -145,7 +159,7 @@ export default function Home() {
                 <div className="expertise-image-wrap">
                   <Image src={expertise.image} alt={expertise.imageAlt} fill sizes="(max-width: 900px) 100vw, 55vw" unoptimized />
                 </div>
-                <figcaption><span>Projet réel</span>{expertise.project}</figcaption>
+                <figcaption><span>Notre façon de travailler</span>{expertise.visualLabel}</figcaption>
               </figure>
             </div>
           </section>
@@ -223,38 +237,6 @@ export default function Home() {
               </li>
             ))}
           </ol>
-        </div>
-      </section>
-
-      <section className="agency-section projects-section" id="realisations" aria-labelledby="projects-title">
-        <div className="shell">
-          <div className="split-heading">
-            <div>
-              <p className="section-index">04 — Réalisations</p>
-              <p className="kicker">Des projets visibles, pas des maquettes fictives</p>
-              <h2 id="projects-title">Du studio local au produit SaaS.</h2>
-            </div>
-            <div>
-              <p>Chaque aperçu mène vers le site réel. Les descriptions portent sur ce qui est visible, sans inventer de chiffre ou de résultat.</p>
-              <Link className="text-link" href="/realisations">Voir les 8 projets en détail <span aria-hidden="true">↗</span></Link>
-            </div>
-          </div>
-          <div className="real-project-grid">
-            {projects.map((project, index) => (
-              <article className={`real-project project-tone-${project.tone}${index === 0 || index === 5 ? " real-project-wide" : ""}`} key={project.name}>
-                <a className="real-project-visual" href={project.href} target="_blank" rel="noreferrer" aria-label={`Voir ${project.name}`}>
-                  <Image src={project.image} alt={project.imageAlt} fill sizes={index === 0 || index === 5 ? "(max-width: 620px) 100vw, 88vw" : "(max-width: 620px) 100vw, 44vw"} unoptimized />
-                  <span aria-hidden="true">↗</span>
-                </a>
-                <div className="real-project-copy">
-                  <div><span>{project.type}</span><span>{project.sector}</span></div>
-                  <h3>{project.name}</h3>
-                  <p>{project.solution}</p>
-                  <ul>{project.levers.map((lever) => <li key={lever}>{lever}</li>)}</ul>
-                </div>
-              </article>
-            ))}
-          </div>
         </div>
       </section>
 
