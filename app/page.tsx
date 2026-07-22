@@ -73,11 +73,6 @@ export default function Home() {
                 Découvrir les expertises
               </a>
             </div>
-            <dl className="hero-facts" aria-label="Le collectif en trois repères">
-              <div><dt>03</dt><dd>expertises complémentaires</dd></div>
-              <div><dt>01</dt><dd>interlocuteur principal</dd></div>
-              <div><dt>100%</dt><dd>sur mesure, sans formule opaque</dd></div>
-            </dl>
           </div>
 
           <figure className="hero-agency-visual">
@@ -95,37 +90,22 @@ export default function Home() {
             </figcaption>
           </figure>
         </div>
-      </section>
-
-      <section className="client-belt" aria-label="Projets et marques accompagnés">
-        <div className="shell client-belt-heading">
-          <p>Projets sur lesquels nous avons travaillé</p>
-          <span>Sites actuellement en ligne</span>
-        </div>
-        <div className="client-marquee">
-          <div className="client-track">
-            <div className="client-group">
-              {clientMarks.map((client) => <ClientLogo client={client} key={client.name} />)}
-            </div>
-            <div className="client-group" aria-hidden="true">
-              {clientMarks.map((client) => <ClientLogo client={client} duplicate key={`duplicate-${client.name}`} />)}
+        <section className="client-belt" aria-label="Projets et marques accompagnés">
+          <div className="shell client-belt-heading">
+            <p>Projets sur lesquels nous avons travaillé</p>
+            <span>Sites actuellement en ligne</span>
+          </div>
+          <div className="client-marquee">
+            <div className="client-track">
+              <div className="client-group">
+                {clientMarks.map((client) => <ClientLogo client={client} key={client.name} />)}
+              </div>
+              <div className="client-group" aria-hidden="true">
+                {clientMarks.map((client) => <ClientLogo client={client} duplicate key={`duplicate-${client.name}`} />)}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section className="agency-section projects-section projects-section-featured" id="realisations" aria-labelledby="projects-title">
-        <div className="shell">
-          <div className="split-heading projects-heading">
-            <div>
-              <p className="section-index">04 — Réalisations</p>
-              <p className="kicker">Sites et produits réellement en ligne</p>
-              <h2 id="projects-title">Des projets visibles, pas des promesses.</h2>
-            </div>
-            <p>La sélection avance seule. Survolez-la pour la mettre en pause, utilisez les flèches ou faites-la glisser.</p>
-          </div>
-          <ProjectCarousel />
-        </div>
+        </section>
       </section>
 
       <section className="agency-intro" aria-labelledby="intro-title">
@@ -237,6 +217,20 @@ export default function Home() {
               </li>
             ))}
           </ol>
+        </div>
+      </section>
+
+      <section className="agency-section projects-section projects-section-featured" id="realisations" aria-labelledby="projects-title">
+        <div className="shell">
+          <div className="split-heading projects-heading">
+            <div>
+              <p className="section-index">04 — Réalisations</p>
+              <p className="kicker">Sites et produits réellement en ligne</p>
+              <h2 id="projects-title">Des projets visibles, pas des promesses.</h2>
+            </div>
+            <p>La sélection avance seule. Survolez-la pour la mettre en pause, utilisez les flèches ou faites-la glisser.</p>
+          </div>
+          <ProjectCarousel />
         </div>
       </section>
 

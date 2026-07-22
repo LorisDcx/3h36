@@ -2485,9 +2485,9 @@ h3 {
 
 .agency-hero {
   position: relative;
-  min-height: min(760px, calc(100svh - 80px));
+  min-height: 0;
   overflow: hidden;
-  padding: clamp(58px, 7vw, 96px) 0 76px;
+  padding: clamp(32px, 4.2vw, 52px) 0 0;
   background:
     radial-gradient(circle at 79% 17%, rgba(229, 236, 232, 0.95), transparent 34%),
     linear-gradient(135deg, #fffdf9 0%, #fbf7f1 57%, #f6eee5 100%);
@@ -2519,24 +2519,25 @@ h3 {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1.04fr) minmax(470px, 0.96fr);
-  gap: clamp(42px, 6vw, 90px);
+  grid-template-columns: minmax(0, 1.08fr) minmax(400px, 0.82fr);
+  gap: clamp(40px, 5vw, 70px);
   align-items: center;
+  padding-bottom: clamp(24px, 3vw, 36px);
 }
 
 .agency-hero-copy {
-  max-width: 760px;
+  max-width: 680px;
 }
 
 .agency-hero .eyebrow {
-  margin-bottom: 26px;
+  margin-bottom: 18px;
 }
 
 .agency-hero h1 {
-  max-width: 800px;
-  margin-bottom: 24px;
-  font-size: clamp(3.15rem, 5.7vw, 6.25rem);
-  line-height: 0.96;
+  max-width: 680px;
+  margin-bottom: 18px;
+  font-size: clamp(2.85rem, 4.4vw, 4.9rem);
+  line-height: 0.98;
 }
 
 .agency-hero h1 em {
@@ -2545,64 +2546,28 @@ h3 {
 }
 
 .agency-hero-lead {
-  max-width: 690px;
-  margin-bottom: 30px;
+  max-width: 620px;
+  margin-bottom: 24px;
   color: var(--ink-soft);
-  font-size: clamp(1.02rem, 1.4vw, 1.2rem);
-  line-height: 1.65;
+  font-size: clamp(0.98rem, 1.2vw, 1.08rem);
+  line-height: 1.58;
 }
 
 .agency-hero .cta-row {
-  margin-bottom: 36px;
-}
-
-.hero-facts {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0;
-  max-width: 720px;
   margin: 0;
-  border-top: 1px solid var(--line);
-}
-
-.hero-facts > div {
-  display: grid;
-  gap: 4px;
-  padding: 18px 18px 0 0;
-}
-
-.hero-facts > div + div {
-  padding-left: 18px;
-  border-left: 1px solid var(--line);
-}
-
-.hero-facts dt {
-  color: var(--copper);
-  font-family: var(--serif);
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: -0.04em;
-}
-
-.hero-facts dd {
-  margin: 0;
-  color: var(--ink-soft);
-  font-size: 0.71rem;
-  font-weight: 680;
-  line-height: 1.35;
-  text-transform: uppercase;
 }
 
 .hero-agency-visual {
   position: relative;
-  aspect-ratio: 1.02;
-  min-height: 530px;
+  aspect-ratio: 1.16;
+  min-height: 430px;
   margin: 0;
   overflow: hidden;
   border: 8px solid rgba(255, 255, 255, 0.88);
   border-radius: 30px;
   background: var(--sage);
   box-shadow: 0 30px 78px rgba(16, 43, 58, 0.17);
+  transform: translateY(-8px);
 }
 
 .hero-agency-visual::after {
@@ -2653,6 +2618,8 @@ h3 {
 }
 
 .client-belt {
+  position: relative;
+  z-index: 2;
   overflow: hidden;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
@@ -2664,7 +2631,7 @@ h3 {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  min-height: 58px;
+  min-height: 46px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -2701,10 +2668,10 @@ h3 {
 
 .client-mark {
   display: grid;
-  min-width: 205px;
-  min-height: 112px;
+  min-width: 190px;
+  min-height: 88px;
   place-items: center;
-  padding: 24px 32px;
+  padding: 16px 28px;
   border-right: 1px solid var(--line);
   color: var(--night);
   filter: saturate(0.5);
@@ -3851,11 +3818,11 @@ h3 {
   }
 
   .agency-hero h1 {
-    font-size: clamp(3.25rem, 6.6vw, 5.3rem);
+    font-size: clamp(2.85rem, 5.2vw, 4.35rem);
   }
 
   .hero-agency-visual {
-    min-height: 470px;
+    min-height: 400px;
   }
 
   .intro-grid {
@@ -3883,7 +3850,7 @@ h3 {
 
   .agency-hero {
     min-height: 0;
-    padding-top: 70px;
+    padding-top: 42px;
   }
 
   .agency-hero-grid,
@@ -3906,6 +3873,7 @@ h3 {
     aspect-ratio: 1.5;
     min-height: 0;
     margin-top: 10px;
+    transform: none;
   }
 
   .intro-grid {
@@ -3989,11 +3957,11 @@ h3 {
   }
 
   .agency-hero {
-    padding: 56px 0 54px;
+    padding: 38px 0 0;
   }
 
   .agency-hero h1 {
-    font-size: clamp(2.85rem, 13.6vw, 4.3rem);
+    font-size: clamp(2.55rem, 11.8vw, 3.6rem);
   }
 
   .agency-hero .cta-row {
@@ -4003,22 +3971,6 @@ h3 {
 
   .agency-hero .button {
     width: 100%;
-  }
-
-  .hero-facts {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-facts > div {
-    grid-template-columns: 60px 1fr;
-    align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .hero-facts > div + div {
-    padding-left: 0;
-    border-left: 0;
   }
 
   .hero-agency-visual {
@@ -4044,8 +3996,8 @@ h3 {
 
   .client-mark {
     min-width: 175px;
-    min-height: 96px;
-    padding: 20px 26px;
+    min-height: 82px;
+    padding: 14px 24px;
   }
 
   .agency-intro,
