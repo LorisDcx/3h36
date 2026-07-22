@@ -481,7 +481,6 @@ export const footerLinks = [
       { label: "Secteurs accompagnés", href: "/secteurs" },
       { label: "Réalisations", href: "/realisations" },
       { label: "Ressources", href: "/ressources" },
-      { label: "Observatoire GEO Savoie", href: "/observatoire-geo-savoie" },
     ],
   },
   {

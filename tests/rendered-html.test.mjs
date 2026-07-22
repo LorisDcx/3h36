@@ -51,6 +51,37 @@ test("renders the agency homepage and prioritizes the requested projects", async
   }
 });
 
+test("renders crawlable desktop and mobile navigation for priority SEO pages", async () => {
+  const response = await render();
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  const headerHtml = html.match(/<header class="site-header">[\s\S]*?<\/header>/i)?.[0] ?? "";
+  assert.ok(headerHtml, "Le header doit etre rendu dans le HTML initial");
+  assert.match(headerHtml, /aria-controls="desktop-solutions-navigation"/i);
+  assert.match(headerHtml, /aria-controls="desktop-secteurs-navigation"/i);
+  assert.match(headerHtml, /aria-controls="desktop-projects-navigation"/i);
+  assert.match(headerHtml, /aria-controls="desktop-resources-navigation"/i);
+  assert.match(headerHtml, /aria-controls="desktop-agency-navigation"/i);
+  assert.match(headerHtml, /id="mobile-navigation-panel"/i);
+
+  for (const href of [
+    "/referencement-seo",
+    "/geo",
+    "/gestion-google-ads",
+    "/secteurs/batiment",
+    "/secteurs/pme",
+    "/agence-web-chambery",
+    "/realisations/plum",
+    "/ressources/seo-vs-geo-pme",
+    "/a-propos",
+  ]) {
+    assert.ok(headerHtml.includes(`href="${href}"`), `${href} doit rester accessible depuis le header`);
+  }
+
+  assert.doesNotMatch(headerHtml, /href="\/observatoire-geo-savoie"/i);
+});
+
 const cases = [
   ["plum", "Plum", "https://plum-dun-six.vercel.app/"],
   ["urgeza", "URGEZA", "https://urgeza.com/"],
@@ -79,7 +110,7 @@ test("renders the compact two-step contact journey with three needs", async () =
   const response = await render("/contact");
   assert.equal(response.status, 200);
 
-  const html = await response.text();
+  const html = (await response.text()).replace(/<header class="site-header">[\s\S]*?<\/header>/i, "");
   assert.match(html, /Site web, acquisition &amp; outils/i);
   assert.match(html, /Photo &amp; vidéo/i);
   assert.match(html, /Identité &amp; contenu/i);
