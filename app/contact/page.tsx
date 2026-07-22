@@ -3,7 +3,7 @@ import ContactForm from "./ContactForm";
 
 export const metadata: Metadata = {
   title: "Parler de votre projet",
-  description: "Décrivez votre besoin web, acquisition ou automatisation à 3h36 Agency. Formulaire de qualification en trois étapes.",
+  description: "Décrivez votre besoin de stratégie, identité, site, contenus ou acquisition au collectif 3h36 agency.",
 };
 
 export default function ContactPage() {
@@ -12,7 +12,7 @@ export default function ContactPage() {
       <section className="page-hero">
         <div className="shell">
           <p className="eyebrow">Un premier échange, sans jargon</p>
-          <h1>Parlons de ce que votre digital doit réellement accomplir.</h1>
+          <h1>Parlons de ce que votre marque doit réellement accomplir.</h1>
           <p className="page-hero-lead">Quelques informations suffisent pour comprendre votre contexte, vérifier le bon niveau d’accompagnement et préparer un échange utile.</p>
         </div>
       </section>

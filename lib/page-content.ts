@@ -35,7 +35,7 @@ export type PageContent = Readonly<{
   cta?: PageCta;
 }>;
 
-export const pageContentByRoute = {
+export const pageContentByRoute: Record<PageRoute, PageContent> = {
   "/services": {
     slug: "services",
     eyebrow: "Sites, acquisition et automatisation",
@@ -275,13 +275,13 @@ export const pageContentByRoute = {
     seo: {
       title: "Maintenance, SEO local et Google Ads | 3h36 Agency",
       description:
-        "Forfaits mensuels dès 89 € HT pour maintenir votre site, travailler le SEO local, suivre les conversions et piloter Google Ads.",
+        "Forfaits mensuels dès 99 € HT pour maintenir votre site, développer sa visibilité ou piloter l’acquisition.",
     },
     sections: [
       {
-        heading: "Sérénité — 89 € HT par mois",
+        heading: "Suivi technique — 99 € HT par mois",
         body:
-          "Le socle pour conserver un site disponible, sécurisé et suivi. Le tarif de 89 € HT par mois correspond à un engagement annuel conseillé de 12 mois ; la formule est proposée à 109 € HT par mois sans engagement annuel.",
+          "Le socle pour conserver un site disponible, sauvegardé, surveillé et maintenu. Le périmètre exact et la durée d’engagement sont précisés dans la proposition.",
         bullets: [
           "Hébergement, sauvegardes et surveillance de disponibilité",
           "Mises à jour et maintenance de sécurité",
@@ -291,9 +291,9 @@ export const pageContentByRoute = {
         ],
       },
       {
-        heading: "Visibilité locale — 290 € HT par mois",
+        heading: "Visibilité — 390 € HT par mois",
         body:
-          "Ce forfait reprend tout le contenu de Sérénité et ajoute un suivi régulier du référencement local. Il vise une amélioration continue, sans promettre une première position sur Google.",
+          "Ce forfait reprend le socle technique et ajoute un suivi régulier des contenus, du référencement et de la présence locale. Il vise une amélioration continue, sans promettre une position précise sur Google.",
         bullets: [
           "Suivi SEO technique, Search Console et positions principales",
           "Optimisation de Google Business Profile",
@@ -303,9 +303,9 @@ export const pageContentByRoute = {
         ],
       },
       {
-        heading: "Acquisition — à partir de 590 € HT par mois",
+        heading: "Acquisition — 690 € HT par mois",
         body:
-          "Le forfait couvre le pilotage Google Ads pour une dépense publicitaire allant jusqu’à 2 500 € par mois. Au-delà, les honoraires représentent 15 % des dépenses publicitaires, avec un minimum de 590 € HT par mois. Le budget média est payé directement par le client à Google.",
+          "Le forfait couvre le suivi des conversions, le pilotage des campagnes et les recommandations sur les pages d’atterrissage. Le budget média reste distinct et payé directement à la régie.",
         bullets: [
           "Suivi du tracking, des conversions et des termes de recherche",
           "Pilotage et optimisation des campagnes et annonces",
@@ -315,15 +315,14 @@ export const pageContentByRoute = {
         ],
       },
       {
-        heading: "Croissance locale — 790 € HT par mois",
+        heading: "Un suivi qui reste un choix",
         body:
-          "Une formule réunissant les principaux leviers pour les entreprises locales qui souhaitent un pilotage plus global de leur présence digitale.",
+          "Aucun abonnement n’est imposé pour devenir propriétaire du projet. Un accompagnement récurrent n’est proposé que lorsque maintenance, visibilité ou acquisition justifient réellement un travail continu.",
         bullets: [
-          "Maintenance et SEO local",
-          "Google Business Profile et Google Ads",
-          "Tracking et tableau de bord",
-          "Une optimisation de page par mois",
-          "Accompagnement mensuel",
+          "Périmètre et rythme précisés avant l’engagement",
+          "Comptes et budgets tiers conservés au nom du client",
+          "Indicateurs définis selon l’objectif",
+          "Aucune promesse de position ou de volume invérifiable",
         ],
       },
     ],
@@ -436,29 +435,29 @@ export const pageContentByRoute = {
 
   "/a-propos": {
     slug: "a-propos",
-    eyebrow: "3h36 Agency, basée en Savoie",
-    title: "Un interlocuteur unique pour des outils digitaux réellement utiles",
+    eyebrow: "Trois indépendants réunis en Savoie",
+    title: "Un collectif complémentaire, une direction commune",
     description:
-      "3h36 Agency accompagne les entreprises dans la conception de sites, de parcours d’acquisition et d’outils sur mesure, localement comme à distance.",
+      "3h36 agency réunit stratégie web et acquisition, identité graphique, photo et vidéo pour construire des marques et des dispositifs cohérents.",
     seo: {
-      title: "À propos de 3h36 Agency, agence web en Savoie",
+      title: "À propos de 3h36 agency, collectif web et créatif en Savoie",
       description:
-        "Une approche directe qui relie création web, SEO, tracking, conversion et automatisation pour les TPE et PME en Savoie et à distance.",
+        "Trois indépendants complémentaires pour relier stratégie, identité, sites, contenus, photo, vidéo et acquisition en Savoie et à distance.",
     },
     sections: [
       {
-        heading: "Pourquoi 3h36 Agency",
+        heading: "Pourquoi un collectif",
         body:
-          "Le nom traduit une conviction simple : un bon outil digital continue d’informer, de rassurer, de qualifier ou de simplifier une tâche lorsque l’entreprise ne travaille pas. Un site doit donc faire plus que simplement exister.",
+          "Certains projets ont besoin de plusieurs métiers, pas d’une structure lourde. Le collectif assemble les bonnes expertises autour d’une direction commune et garde un interlocuteur principal pour les décisions, le budget et le planning.",
       },
       {
         heading: "Relier les enjeux plutôt que les isoler",
         body:
-          "L’approche combine compréhension du besoin, gestion de projet, performance web, SEO, tracking et conversion. Cette vision d’ensemble évite de créer un beau site sans visibilité, ou une campagne sans parcours capable de convertir.",
+          "L’approche relie compréhension du besoin, identité, expérience web, contenus et diffusion. Cette vision d’ensemble évite de produire un beau support isolé du positionnement, ou une campagne sans parcours cohérent.",
         bullets: [
           "Une recommandation adaptée au besoin et au budget",
           "Un périmètre écrit et des étapes compréhensibles",
-          "Des choix techniques au service de l’usage",
+          "Les expertises activées selon le besoin réel",
           "Un suivi possible après la mise en ligne",
         ],
       },
@@ -624,4 +623,4 @@ export const pageContentByRoute = {
       href: "#cookie-preferences",
     },
   },
-} as const satisfies Record<PageRoute, PageContent>;
+};

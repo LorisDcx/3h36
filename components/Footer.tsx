@@ -11,8 +11,8 @@ export function Footer() {
             <Logo />
           </Link>
           <p>
-            Sites, acquisition et solutions digitales utiles pour TPE et PME.
-            Basée en Savoie, disponible partout en France et en Suisse romande.
+            Un collectif web, design et acquisition basé en Savoie.
+            Trois expertises complémentaires, un interlocuteur principal.
           </p>
         </div>
 
@@ -32,13 +32,13 @@ export function Footer() {
           {contact.email ? <a href={`mailto:${contact.email}`}>{contact.email}</a> : null}
           <p>{contact.location}</p>
           <Link href="/contact" className="text-link text-link-light">
-            Obtenir une estimation <span aria-hidden="true">↗</span>
+            Parler de votre projet <span aria-hidden="true">↗</span>
           </Link>
         </div>
       </div>
       <div className="shell footer-bottom">
         <p>© {new Date().getFullYear()} 3h36 Agency</p>
-        <p>Un digital qui reste utile, même quand vous dormez.</p>
+        <p>Image claire · site solide · visibilité utile</p>
       </div>
     </footer>
   );

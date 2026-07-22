@@ -9,23 +9,23 @@ export async function generateMetadata(): Promise<Metadata> {
   const host = requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host") ?? "localhost:4173";
   const protocol = requestHeaders.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
   const origin = `${protocol}://${host}`;
-  const socialImage = new URL("/og.png", origin).toString();
+  const socialImage = new URL("/og-v2.png", origin).toString();
 
   return {
     metadataBase: new URL(origin),
     title: {
-      default: "3h36 Agency — Création de sites web et acquisition en Savoie",
+      default: "3h36 agency — Collectif web, design & acquisition en Savoie",
       template: "%s — 3h36 Agency",
     },
     description:
-      "Sites vitrines, sites d’acquisition, SEO local, Google Ads et outils sur mesure pour TPE et PME. Découvrez 3h36 Agency, agence web basée en Savoie.",
+      "Trois indépendants réunis pour concevoir identités, sites, contenus et actions de visibilité utiles. Collectif basé en Savoie, projets locaux et à distance.",
     keywords: [
       "agence web Savoie",
+      "collectif créatif Savoie",
+      "identité visuelle Savoie",
       "création site internet",
-      "site internet artisan",
       "SEO local",
-      "génération de leads",
-      "automatisation PME",
+      "photo vidéo entreprise",
     ],
     authors: [{ name: "3h36 Agency" }],
     creator: "3h36 Agency",
@@ -33,16 +33,16 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       locale: "fr_FR",
       siteName: "3h36 Agency",
-      title: "Des sites qui travaillent, même à 3h36.",
+      title: "Une image claire, un site solide et une visibilité utile.",
       description:
-        "Sites, acquisition et outils sur mesure pour gagner en visibilité, en efficacité et en demandes commerciales.",
-      images: [{ url: socialImage, width: 1536, height: 1024, alt: "3h36 Agency — Des sites qui travaillent, même à 3h36." }],
+        "Un collectif web, design et acquisition en Savoie. Trois expertises complémentaires, un interlocuteur principal.",
+      images: [{ url: socialImage, width: 1536, height: 1024, alt: "3h36 agency — collectif web, design et acquisition en Savoie" }],
     },
     twitter: {
       card: "summary_large_image",
-      title: "Des sites qui travaillent, même à 3h36.",
+      title: "Une image claire, un site solide et une visibilité utile.",
       description:
-        "Sites, acquisition et outils sur mesure pour les entreprises ambitieuses.",
+        "Collectif web, design et acquisition en Savoie.",
       images: [socialImage],
     },
   };
@@ -53,7 +53,7 @@ const organizationSchema = {
   "@type": ["Organization", "ProfessionalService"],
   name: "3h36 Agency",
   description:
-    "Agence web indépendante spécialisée en création de sites, acquisition digitale et automatisation.",
+    "Collectif de trois indépendants spécialisé en stratégie, web, identité, contenus, photo, vidéo et acquisition.",
   areaServed: ["Savoie", "Haute-Savoie", "Isère", "Ain", "Rhône", "Suisse romande"],
   address: {
     "@type": "PostalAddress",
@@ -62,6 +62,9 @@ const organizationSchema = {
   },
   knowsAbout: [
     "Création de sites internet",
+    "Identité visuelle",
+    "Photographie et vidéo",
+    "Stratégie de contenus",
     "SEO local",
     "Google Ads",
     "Web analytics",

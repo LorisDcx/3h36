@@ -20,8 +20,6 @@ export type ApproachPillar = {
   points: readonly string[];
 };
 
-export type ProjectStatus = "Produit indépendant" | "Démonstrateur";
-
 export type Project = {
   name: string;
   sector: string;
@@ -30,9 +28,11 @@ export type Project = {
   objective: string;
   solution: string;
   levers: readonly string[];
-  status: ProjectStatus;
-  href: string | null;
-  image: string | null;
+  status: "En ligne";
+  href: string;
+  image: string;
+  imageAlt: string;
+  tone: string;
 };
 
 export type ProcessStep = {
@@ -42,7 +42,7 @@ export type ProcessStep = {
 };
 
 export type MonthlyPlan = {
-  id: "serenite" | "visibilite-locale" | "acquisition" | "croissance-locale";
+  id: "technique" | "visibilite" | "acquisition";
   name: string;
   price: string;
   description: string;
@@ -69,29 +69,112 @@ export type ContactDetails = {
 };
 
 export const navigation = [
-  { label: "Services", href: "/services" },
+  { label: "Expertises", href: "/#expertises" },
+  { label: "Offres", href: "/#offres" },
+  { label: "Collectif", href: "/#collectif" },
   { label: "Réalisations", href: "/realisations" },
-  { label: "Méthode", href: "/methode" },
-  { label: "À propos", href: "/a-propos" },
-  { label: "Conseils", href: "/#conseils" },
-  { label: "Contact", href: "/contact" },
+  { label: "Approche", href: "/#methode" },
 ] as const satisfies readonly NavigationItem[];
 
-export const offers = [
+export const clientMarks = [
+  { name: "AvisZen", href: "https://www.monaviszen.fr/", image: "/images/clients/aviszen-logo-sm.webp" },
+  { name: "Delco Ink", href: "https://www.delco-ink.fr/", image: "/images/clients/delco-ink-logo.webp" },
+  { name: "Loris Lazulis", href: "https://www.loris-lazulis.com/", wordmark: "Loris Lazulis" },
+  { name: "Cramdesk", href: "https://www.cramdesk.com/", image: "/images/clients/cramdesk-logo-sm.webp", wordmark: "Cramdesk" },
+  { name: "FlowSaver", href: "https://flowsaver.vercel.app/", wordmark: "FlowSaver" },
+  { name: "Plum", href: "https://plum-dun-six.vercel.app/", image: "/images/clients/plum-logo-sm.webp" },
+  { name: "WildEye", href: "https://wild-eye-theta.vercel.app/", wordmark: "WildEye" },
+  { name: "URGEZA", href: "https://urgeza.com/", wordmark: "URGEZA" },
+] as const;
+
+export const expertises = [
+  {
+    id: "strategie",
+    number: "01",
+    title: "Stratégie & pilotage",
+    lead: "Donner une direction commune avant de produire.",
+    description:
+      "Nous clarifions l’offre, les publics, les priorités et les indicateurs utiles. Chaque intervenant travaille ensuite à partir du même cap, avec un interlocuteur principal pour garder les décisions simples.",
+    deliverables: ["Cadrage et priorisation", "Architecture de l’offre", "Planning et coordination", "Mesure des actions utiles"],
+    image: "/images/projects/flowsaver-home-web.webp",
+    imageAlt: "Page d’accueil du produit FlowSaver",
+    project: "FlowSaver · cadrage produit",
+  },
+  {
+    id: "digital",
+    number: "02",
+    title: "Sites & outils digitaux",
+    lead: "Transformer un besoin métier en expérience claire.",
+    description:
+      "Site vitrine, plateforme d’acquisition ou outil métier : nous concevons la structure, les parcours, l’interface et le développement avec la même exigence de lisibilité, sur mobile comme sur ordinateur.",
+    deliverables: ["UX et arborescence", "Direction d’interface", "Développement responsive", "Mise en ligne et transmission"],
+    image: "/images/projects/aviszen-home-web.webp",
+    imageAlt: "Page d’accueil de la plateforme AvisZen",
+    project: "AvisZen · plateforme d’e-réputation",
+  },
+  {
+    id: "identite",
+    number: "03",
+    title: "Identité & création graphique",
+    lead: "Rendre la marque reconnaissable et cohérente.",
+    description:
+      "Nous construisons un langage visuel capable de vivre sur le site, les réseaux et les supports commerciaux : identité, couleurs, typographies, principes de composition et déclinaisons utiles.",
+    deliverables: ["Direction artistique", "Identité visuelle", "Système graphique", "Supports print et digitaux"],
+    image: "/images/projects/delco-ink-home-web.webp",
+    imageAlt: "Page d’accueil du studio Delco Ink",
+    project: "Delco Ink · univers éditorial",
+  },
+  {
+    id: "photo-video",
+    number: "04",
+    title: "Photo & vidéo",
+    lead: "Montrer le vrai visage de l’activité.",
+    description:
+      "Portraits, gestes métier, lieux, produits et formats courts donnent une matière crédible aux supports. Le cadrage visuel est pensé en même temps que les usages, pas ajouté à la fin du projet.",
+    deliverables: ["Intentions et repérage", "Prises de vue", "Montage et étalonnage", "Déclinaisons par canal"],
+    image: "/images/projects/delco-ink-hero.webp",
+    imageAlt: "Univers photographique du studio Delco Ink",
+    project: "Des images prévues pour leurs usages",
+  },
+  {
+    id: "acquisition",
+    number: "05",
+    title: "SEO, SEA & acquisition",
+    lead: "Créer de la visibilité que l’on peut piloter.",
+    description:
+      "Nous relions pages, recherche locale, campagnes et suivi des conversions. L’objectif est de comprendre d’où viennent les actions utiles et d’améliorer le dispositif sans promesse artificielle de position ou de volume.",
+    deliverables: ["Socle SEO et SEO local", "Landing pages", "Tracking des conversions", "Pilotage de campagnes"],
+    image: "/images/projects/cramdesk-home-web.webp",
+    imageAlt: "Interface de la plateforme de révision Cramdesk",
+    project: "Cramdesk · parcours produit",
+  },
+  {
+    id: "contenus",
+    number: "06",
+    title: "Contenus & réseaux sociaux",
+    lead: "Installer une parole régulière sans la diluer.",
+    description:
+      "Positionnement éditorial, formats récurrents, calendrier et production : nous structurons un système réaliste pour que la marque reste cohérente, utile et reconnaissable dans le temps.",
+    deliverables: ["Ligne éditoriale", "Piliers de contenus", "Calendrier de publication", "Gabarits et production"],
+    image: "/images/projects/plum-home-web.webp",
+    imageAlt: "Page d’accueil de l’outil éditorial Plum",
+    project: "Plum · organisation éditoriale",
+  },
+] as const;
+
+export const offers: readonly Offer[] = [
   {
     id: "site-vitrine",
     title: "Site vitrine",
     description:
-      "Pour présenter votre entreprise avec une image professionnelle et une base technique solide.",
+      "Une présence claire et crédible pour présenter l’activité, les services et faciliter la prise de contact.",
     price: "À partir de 1 200 € HT",
     features: [
+      "Cadrage et arborescence",
       "Jusqu’à 5 pages",
-      "Design responsive",
-      "Formulaire de contact",
-      "Optimisation mobile et des performances",
-      "SEO technique de base",
-      "Mesure d’audience",
-      "Mise en ligne et formation rapide",
+      "Design responsive sur mesure",
+      "Socle SEO et mesure d’audience",
+      "Mise en ligne et prise en main",
     ],
     timeline: "2 à 4 semaines après réception des contenus",
     cta: { label: "Découvrir l’offre", href: "/site-vitrine" },
@@ -100,68 +183,57 @@ export const offers = [
     id: "site-acquisition",
     title: "Site acquisition",
     description:
-      "Pour transformer votre visibilité en demandes de devis, appels ou prises de rendez-vous.",
+      "Un dispositif plus complet pour être trouvé, guider vers l’action et mesurer les demandes obtenues.",
     price: "À partir de 2 500 € HT",
-    badge: "Le plus demandé",
+    badge: "Le plus complet",
     features: [
-      "Tout le socle du site vitrine",
-      "Jusqu’à 8 à 10 pages",
-      "Parcours et appels à l’action orientés conversion",
-      "Formulaires qualifiants",
-      "SEO local et Google Business Profile",
-      "GA4, Tag Manager et suivi des conversions",
-      "Prise de rendez-vous et tableau de bord simple",
-      "Suivi pendant 30 jours après la mise en ligne",
+      "Cadrage marketing",
+      "8 à 10 pages orientées conversion",
+      "SEO local et landing pages",
+      "Formulaires qualifiants et tracking",
+      "Suivi pendant 30 jours",
     ],
     timeline: "4 à 8 semaines",
-    cta: { label: "Développer mon acquisition", href: "/site-acquisition" },
+    cta: { label: "Voir le périmètre", href: "/site-acquisition" },
   },
   {
     id: "solutions-metiers",
-    title: "Solutions métiers & automatisations",
+    title: "Outil métier",
     description:
-      "Pour créer un espace client, un configurateur, un tableau de bord ou automatiser un processus métier.",
+      "Un portail, configurateur, tableau de bord ou workflow conçu autour de votre manière de travailler.",
     price: "Sur devis",
     features: [
       "Analyse du processus actuel",
       "Définition d’un MVP",
-      "Prototype et tests utilisateurs",
-      "Outils adaptés aux usages réels",
-      "Connexions et synchronisations entre outils",
-      "Déploiement, maintenance et évolutions",
+      "Prototype et tests d’usage",
+      "Développement sur mesure",
+      "Déploiement et évolutions",
     ],
-    timeline: "Planning défini après le cadrage",
-    cta: { label: "Étudier mon besoin", href: "/solutions-metiers" },
+    timeline: "Planning défini après cadrage",
+    cta: { label: "Étudier le besoin", href: "/solutions-metiers" },
   },
-] as const satisfies readonly Offer[];
-
-export const problems = [
-  "Un site daté ou peu rassurant",
-  "Des visiteurs qui ne prennent pas contact",
-  "Une faible visibilité sur Google",
-  "Des tâches répétitives encore réalisées manuellement",
-] as const;
+];
 
 export const approachPillars = [
   {
     title: "Comprendre",
-    description: "Partir de la réalité de votre entreprise avant de proposer une solution.",
-    points: ["Activité", "Clients", "Offre", "Objectifs", "Contraintes"],
+    description: "Partir de l’activité, des publics et des contraintes réelles.",
+    points: ["Écoute", "Audit", "Objectifs", "Priorités"],
   },
   {
-    title: "Concevoir",
-    description: "Construire une expérience claire, utile et cohérente de bout en bout.",
-    points: ["Structure", "Parcours", "Contenus", "Design", "Développement"],
+    title: "Aligner",
+    description: "Partager une direction, un périmètre et des critères de réussite.",
+    points: ["Stratégie", "Périmètre", "Planning", "Validation"],
   },
   {
-    title: "Mesurer",
-    description: "Suivre les actions qui comptent réellement pour votre activité.",
-    points: ["Analytics", "Formulaires", "Appels", "Conversions", "Performances"],
+    title: "Produire",
+    description: "Faire travailler les expertises ensemble, avec des points de décision clairs.",
+    points: ["Design", "Contenus", "Développement", "Recette"],
   },
   {
-    title: "Améliorer",
-    description: "Faire évoluer l’outil à partir des usages et des données disponibles.",
-    points: ["Maintenance", "SEO", "Campagnes", "Automatisation", "Évolution continue"],
+    title: "Lancer & améliorer",
+    description: "Mettre en ligne, transmettre et faire évoluer à partir des retours utiles.",
+    points: ["Lancement", "Formation", "Mesure", "Évolution"],
   },
 ] as const satisfies readonly ApproachPillar[];
 
@@ -170,236 +242,255 @@ export const projects = [
     name: "AvisZen",
     sector: "E-réputation locale",
     type: "Plateforme SaaS",
-    context:
-      "Un produit dédié aux entreprises locales qui souhaitent mieux structurer la gestion de leur réputation en ligne.",
-    objective:
-      "Réunir dans une même expérience l’audit, la collecte d’avis et l’aide à la réponse.",
-    solution:
-      "Une plateforme qui associe audit Google Business Profile, réponses assistées, ressources SEO local et QR codes.",
-    levers: ["Produit SaaS", "Automatisation", "SEO local", "QR codes"],
-    status: "Produit indépendant",
-    href: null,
-    image: null,
+    context: "Une plateforme destinée aux professionnels locaux qui souhaitent centraliser et mieux cadrer leurs réponses aux avis.",
+    objective: "Rassembler génération contextualisée, validation humaine et outils de collecte dans une expérience simple.",
+    solution: "Une plateforme d’e-réputation avec générateur de réponses, Inbox avec garde-fous et QR codes de collecte.",
+    levers: ["Produit", "UX/UI", "Développement", "SEO"],
+    status: "En ligne",
+    href: "https://www.monaviszen.fr/",
+    image: "/images/projects/aviszen-home-web.webp",
+    imageAlt: "Aperçu du site AvisZen",
+    tone: "sky",
+  },
+  {
+    name: "Delco Ink",
+    sector: "Tatouage · Chambéry",
+    type: "Site vitrine",
+    context: "Un studio privé à Cognin avec un univers blackwork illustratif, pop culture et manga.",
+    objective: "Présenter les styles, les flashs et le parcours jusqu’à la prise de rendez-vous.",
+    solution: "Un site éditorial qui réunit univers, galerie filtrable, processus, informations pratiques et contact.",
+    levers: ["Direction visuelle", "Site", "Galerie", "Contenus"],
+    status: "En ligne",
+    href: "https://www.delco-ink.fr/",
+    image: "/images/projects/delco-ink-home-web.webp",
+    imageAlt: "Aperçu du site Delco Ink",
+    tone: "sage",
+  },
+  {
+    name: "Loris Lazulis",
+    sector: "Pierres naturelles certifiées",
+    type: "Présence éditoriale",
+    context: "Un service indépendant d’accompagnement avant l’achat de pierres naturelles certifiées.",
+    objective: "Rendre lisibles le sourcing, l’analyse documentaire, le cadre d’intervention et les honoraires.",
+    solution: "Une présence premium et pédagogique qui clarifie chaque étape sans se présenter comme vendeur ou organisme de certification.",
+    levers: ["Positionnement", "Éditorial", "UX/UI", "Développement"],
+    status: "En ligne",
+    href: "https://www.loris-lazulis.com/",
+    image: "/images/projects/loris-lazulis-og.svg",
+    imageAlt: "Aperçu de l’univers Loris Lazulis",
+    tone: "sand",
+  },
+  {
+    name: "Cramdesk",
+    sector: "Éducation",
+    type: "Produit SaaS",
+    context: "Un outil de révision assistée par IA conçu pour transformer les cours PDF en formats d’apprentissage.",
+    objective: "Rendre le passage du document aux supports de révision immédiat et compréhensible.",
+    solution: "Une plateforme qui produit flashcards, quiz, résumés et présentations, avec chat documentaire et suivi de progression.",
+    levers: ["Produit", "Parcours", "Interface", "Développement"],
+    status: "En ligne",
+    href: "https://www.cramdesk.com/",
+    image: "/images/projects/cramdesk-home-web.webp",
+    imageAlt: "Aperçu de Cramdesk",
+    tone: "orange",
+  },
+  {
+    name: "FlowSaver",
+    sector: "SaaS · Stripe",
+    type: "Landing produit",
+    context: "Une couche Stripe-native dédiée au suivi des essais gratuits et aux scénarios de récupération.",
+    objective: "Expliquer rapidement le produit, son intégration et les moments où il intervient dans le parcours d’essai.",
+    solution: "Une landing page produit structurée autour du parcours, des cas d’usage et d’une démonstration claire de l’interface.",
+    levers: ["Positionnement", "UX writing", "Landing page", "Produit"],
+    status: "En ligne",
+    href: "https://flowsaver.vercel.app/",
+    image: "/images/projects/flowsaver-home-web.webp",
+    imageAlt: "Aperçu du site FlowSaver",
+    tone: "forest",
   },
   {
     name: "Plum",
     sector: "Création de contenu",
-    type: "Outil de planification éditoriale",
-    context:
-      "Un produit pensé pour organiser les idées et les publications sans disperser le travail éditorial.",
-    objective:
-      "Centraliser la planification, le calendrier et la préparation des contenus.",
-    solution:
-      "Un espace SaaS avec calendrier, gestion d’idées, organisation des contenus et assistant IA.",
-    levers: ["Produit SaaS", "Calendrier éditorial", "Organisation", "Assistant IA"],
-    status: "Produit indépendant",
-    href: null,
-    image: null,
+    type: "Outil éditorial",
+    context: "Un calendrier éditorial simple pensé pour les créateurs, indépendants et petites équipes.",
+    objective: "Réunir idées, planification, création et suivi sans ajouter une nouvelle usine à gaz.",
+    solution: "Une expérience douce et directe pour capturer les idées, organiser le calendrier et suivre la production de contenus.",
+    levers: ["Produit", "Identité", "UX/UI", "Développement"],
+    status: "En ligne",
+    href: "https://plum-dun-six.vercel.app/",
+    image: "/images/projects/plum-home-web.webp",
+    imageAlt: "Aperçu du site Plum",
+    tone: "plum",
+  },
+  {
+    name: "WildEye",
+    sector: "Nature & sciences citoyennes",
+    type: "Application cartographique",
+    context: "Un observatoire communautaire du sauvage qui réunit des observations de faune, flore et minéralogie en France.",
+    objective: "Rendre les observations explorables sur une carte tout en permettant un partage maîtrisé des localisations.",
+    solution: "Une interface cartographique avec recherche, filtres, dépôt d’observation et données issues de plusieurs bases naturalistes.",
+    levers: ["Produit", "Cartographie", "Interface", "Données"],
+    status: "En ligne",
+    href: "https://wild-eye-theta.vercel.app/",
+    image: "/images/projects/wildeye-home-web.webp",
+    imageAlt: "Aperçu de l’application WildEye",
+    tone: "moss",
   },
   {
     name: "URGEZA",
     sector: "Outdoor",
-    type: "Boutique e-commerce",
-    context:
-      "Un concept de marque outdoor nécessitant une boutique claire et fluide sur mobile.",
-    objective:
-      "Structurer les collections, valoriser les produits et faciliter le passage à l’achat.",
-    solution:
-      "Une expérience e-commerce centrée sur les collections, les fiches produits, la conversion mobile et la collecte d’inscriptions.",
-    levers: ["E-commerce", "Expérience mobile", "Conversion", "Collecte d’inscriptions"],
-    status: "Démonstrateur",
-    href: null,
-    image: null,
+    type: "E-commerce",
+    context: "Une marque d’essentiels outdoor centrée sur la protection, la durabilité et un style sobre.",
+    objective: "Donner de la présence à la marque et conduire sans friction vers les collections et les produits.",
+    solution: "Une boutique mobile-first qui met en avant l’univers, les catégories, les détails produit et l’accès anticipé.",
+    levers: ["E-commerce", "Direction visuelle", "Mobile", "Contenus"],
+    status: "En ligne",
+    href: "https://urgeza.com/",
+    image: "/images/projects/urgeza-hero.webp",
+    imageAlt: "Univers de la marque outdoor URGEZA",
+    tone: "stone",
   },
 ] as const satisfies readonly Project[];
 
-export const sectors = [
-  "Bâtiment et habitat",
-  "Tourisme et activités outdoor",
-  "Services professionnels",
-  "Commerces et entreprises locales",
-  "PME techniques et industrielles",
-] as const;
-
 export const processSteps = [
-  {
-    number: "01",
-    title: "Appel de découverte",
-    description: "Un premier échange pour comprendre l’entreprise, le besoin et les priorités.",
-  },
-  {
-    number: "02",
-    title: "Analyse du besoin",
-    description: "Les objectifs, contraintes, utilisateurs et contenus sont passés en revue.",
-  },
-  {
-    number: "03",
-    title: "Proposition et cadrage",
-    description: "Le périmètre, les livrables, le planning et le budget sont formalisés.",
-  },
-  {
-    number: "04",
-    title: "Conception",
-    description: "La structure, les parcours, les contenus et la direction visuelle prennent forme.",
-  },
-  {
-    number: "05",
-    title: "Développement",
-    description: "La solution est intégrée avec une attention portée au mobile et aux performances.",
-  },
-  {
-    number: "06",
-    title: "Recette et mise en ligne",
-    description: "Le site est testé, corrigé, validé puis déployé dans son environnement final.",
-  },
-  {
-    number: "07",
-    title: "Suivi et optimisation",
-    description: "Les données et retours guident la maintenance et les améliorations utiles.",
-  },
+  { number: "01", title: "Comprendre", description: "Un premier échange et un cadrage pour cerner l’activité, les publics, le besoin et les contraintes." },
+  { number: "02", title: "Aligner", description: "Une direction, un périmètre, un planning et des points de validation partagés avant la production." },
+  { number: "03", title: "Produire", description: "Les expertises nécessaires avancent ensemble, avec des décisions visibles et des livrables testables." },
+  { number: "04", title: "Lancer & améliorer", description: "Recette, mise en ligne, transmission puis évolutions guidées par les usages et les données disponibles." },
 ] as const satisfies readonly ProcessStep[];
 
 export const monthlyPlans = [
   {
-    id: "serenite",
-    name: "Sérénité",
-    price: "89 € HT / mois",
-    description: "Le socle pour garder un site hébergé, surveillé et à jour.",
-    features: [
-      "Hébergement et sauvegardes",
-      "Surveillance de disponibilité",
-      "Mises à jour et maintenance de sécurité",
-      "Correction des anomalies liées au site",
-      "Rapport trimestriel",
-      "30 minutes de petites modifications par mois",
-    ],
-    note: "12 mois conseillés, ou 109 € HT / mois sans engagement annuel.",
+    id: "technique",
+    name: "Suivi technique",
+    price: "99 € HT / mois",
+    description: "Pour garder un site surveillé, sauvegardé et maintenu dans le temps.",
+    features: ["Hébergement et sauvegardes", "Surveillance", "Maintenance de sécurité", "Petites corrections cadrées"],
+    note: "Périmètre et engagement précisés dans la proposition.",
     published: true,
   },
   {
-    id: "visibilite-locale",
-    name: "Visibilité locale",
-    price: "290 € HT / mois",
-    description: "Un suivi régulier pour consolider votre présence dans les recherches locales.",
-    features: [
-      "Tout le forfait Sérénité",
-      "Suivi SEO technique et Search Console",
-      "Suivi des positions principales",
-      "Optimisation de Google Business Profile",
-      "Mise à jour mensuelle d’un contenu ou d’une page",
-      "Rapport mensuel et échange trimestriel",
-    ],
+    id: "visibilite",
+    name: "Visibilité",
+    price: "390 € HT / mois",
+    description: "Pour faire progresser régulièrement les contenus et la présence dans les recherches.",
+    features: ["Socle technique", "Suivi SEO", "Optimisation locale", "Contenu ou page prioritaire", "Point de pilotage"],
     note: "Aucune position sur Google ne peut être garantie.",
     published: true,
   },
   {
     id: "acquisition",
     name: "Acquisition",
-    price: "590 € HT / mois minimum",
-    description: "Le pilotage et la mesure de campagnes Google Ads orientées conversion.",
-    features: [
-      "Suivi du tracking et des conversions",
-      "Pilotage et optimisation Google Ads",
-      "Suivi des termes de recherche et ajustement des annonces",
-      "Recommandations sur les landing pages",
-      "Tableau de bord et reporting mensuel",
-      "Rendez-vous mensuel",
-    ],
-    note:
-      "Le budget média est payé directement à Google. Le tarif couvre jusqu’à 2 500 € de dépenses publicitaires mensuelles ; au-delà, 15 % des dépenses, avec un minimum de 590 € HT / mois.",
+    price: "690 € HT / mois",
+    description: "Pour piloter campagnes, conversions et améliorations des pages d’atterrissage.",
+    features: ["Tracking des conversions", "Pilotage SEA", "Optimisation des campagnes", "Recommandations de pages", "Reporting utile"],
+    note: "Le budget média est distinct et payé directement à la régie.",
     published: true,
-  },
-  {
-    id: "croissance-locale",
-    name: "Croissance locale",
-    price: "790 € HT / mois",
-    description: "Un accompagnement qui réunit maintenance, SEO local, Ads et suivi mensuel.",
-    features: [
-      "Maintenance",
-      "SEO local et Google Business Profile",
-      "Google Ads",
-      "Tracking et tableau de bord",
-      "Une optimisation de page par mois",
-      "Accompagnement mensuel",
-    ],
-    note: "Offre disponible sur proposition commerciale.",
-    published: false,
   },
 ] as const satisfies readonly MonthlyPlan[];
 
+export const collectiveRoles = [
+  {
+    number: "01",
+    role: "Stratégie, web & acquisition",
+    description: "Cadrage, expérience, développement, SEO/SEA et pilotage des actions mesurables.",
+  },
+  {
+    number: "02",
+    role: "Identité & création graphique",
+    description: "Direction artistique, identité visuelle, systèmes graphiques et déclinaisons de marque.",
+  },
+  {
+    number: "03",
+    role: "Photo & vidéo",
+    description: "Conception visuelle, prises de vue, montage et formats adaptés aux différents canaux.",
+  },
+] as const;
+
+export const guarantees = [
+  "Un devis et un périmètre compréhensibles avant de commencer",
+  "Un interlocuteur principal pendant tout le projet",
+  "Des étapes et validations visibles, sans effet tunnel",
+  "La propriété de vos comptes, outils et livrables prévus au contrat",
+  "Une documentation et une transmission à la livraison",
+  "Aucun abonnement imposé après la mise en ligne",
+  "Des coûts tiers annoncés séparément",
+  "Des mesures utiles, sans promesse de résultat invérifiable",
+] as const;
+
 export const faqItems = [
   {
-    question: "Combien coûte un site internet ?",
-    answer:
-      "Un site vitrine démarre à 1 200 € HT et un site acquisition à 2 500 € HT. Les outils et automatisations sont chiffrés sur devis selon leur périmètre.",
+    question: "Combien coûte un projet avec 3h36 agency ?",
+    answer: "Le site vitrine démarre à 1 200 € HT, le site d’acquisition à 2 500 € HT et les outils métiers sont chiffrés après cadrage. Toute proposition détaille le périmètre, les options et les coûts tiers éventuels.",
   },
   {
-    question: "Combien de temps faut-il pour créer un site ?",
-    answer:
-      "Comptez généralement 2 à 4 semaines pour un site vitrine après réception des contenus, et 4 à 8 semaines pour un site acquisition. Le planning d’un outil sur mesure est défini au cadrage.",
+    question: "Avec qui vais-je travailler ?",
+    answer: "3h36 agency réunit trois indépendants complémentaires. Vous gardez un interlocuteur principal, puis les expertises web, design, acquisition, photo ou vidéo interviennent selon le besoin réel du projet.",
   },
   {
-    question: "Puis-je modifier le contenu moi-même ?",
-    answer:
-      "Oui, le niveau d’autonomie est défini dès le cadrage. Une formation rapide à l’utilisation est prévue lors de la livraison.",
+    question: "Combien de temps faut-il prévoir ?",
+    answer: "Comptez généralement 2 à 4 semaines pour un site vitrine après réception des contenus, et 4 à 8 semaines pour un site d’acquisition. Un outil métier fait l’objet d’un planning spécifique.",
+  },
+  {
+    question: "Pouvez-vous reprendre un site ou une identité existante ?",
+    answer: "Oui. Un état des lieux permet de décider ce qui peut être conservé, amélioré ou doit être refondu. La recommandation tient compte du budget et de la valeur réelle d’une reprise.",
+  },
+  {
+    question: "Qui fournit les textes et les images ?",
+    answer: "Le rôle de chacun est défini au devis. Nous pouvons structurer ou rédiger les contenus et organiser une production photo/vidéo. Si vous les fournissez, nous donnons un cadre précis sur les formats et les échéances.",
   },
   {
     question: "Le référencement est-il inclus ?",
-    answer:
-      "Le site vitrine inclut une base SEO technique. L’offre acquisition ajoute une optimisation SEO locale ; un suivi éditorial régulier peut ensuite faire l’objet d’un accompagnement mensuel.",
+    answer: "Chaque site comprend un socle technique. Le travail éditorial, local ou continu dépend ensuite de l’offre et des objectifs. Aucune position précise dans Google n’est promise.",
   },
   {
-    question: "Travaillez-vous avec des entreprises hors de Savoie ?",
-    answer:
-      "Oui. L’agence est basée en Savoie et travaille aussi à distance avec des entreprises d’autres régions et de Suisse romande.",
+    question: "Pouvez-vous garantir un nombre de demandes ?",
+    answer: "Non. Nous mettons en place une stratégie, des parcours et une mesure sérieuse, mais un volume de demandes dépend aussi du marché, de l’offre, du budget et du temps. Les hypothèses et limites sont rendues explicites.",
   },
   {
-    question: "Proposez-vous un paiement en plusieurs fois ?",
-    answer:
-      "Oui. Les projets web sont réglés par étapes, selon un calendrier précisé dans la proposition commerciale.",
+    question: "Est-ce que je reste propriétaire du site ?",
+    answer: "Oui, dans le cadre prévu au contrat. Les accès, comptes et livrables concernés vous sont transmis. Les éventuelles licences ou services tiers sont identifiés séparément.",
   },
   {
-    question: "Pouvez-vous reprendre un site existant ?",
-    answer:
-      "Oui. Un audit permet d’abord de déterminer s’il est plus pertinent d’optimiser, de migrer ou de refondre l’existant.",
+    question: "Un abonnement est-il obligatoire ?",
+    answer: "Non. Les accompagnements mensuels sont proposés lorsque maintenance, visibilité ou acquisition justifient un suivi. Ils ne sont pas une condition cachée à la livraison du projet.",
   },
   {
-    question: "Gérez-vous Google Ads ?",
-    answer:
-      "Oui, de la configuration du tracking au pilotage des campagnes. Le budget publicitaire reste payé directement par le client à Google.",
+    question: "Travaillez-vous uniquement en Savoie ?",
+    answer: "Le collectif est basé en Savoie et peut travailler localement ou à distance. Les modalités de réunion et de production sont adaptées au projet.",
   },
   {
-    question: "Que se passe-t-il après la mise en ligne ?",
-    answer:
-      "La livraison comprend la formation et les éléments prévus au contrat. L’offre acquisition inclut 30 jours de suivi ; maintenance, SEO et Ads peuvent ensuite être accompagnés par abonnement, sans frais cachés obligatoires.",
+    question: "Le paiement peut-il être échelonné ?",
+    answer: "Oui. Les projets sont généralement réglés par étapes liées au lancement, aux validations et à la mise en ligne. Le calendrier exact figure dans la proposition.",
   },
 ] as const satisfies readonly FaqItem[];
 
 export const footerLinks = [
   {
-    title: "Offres",
+    title: "Explorer",
     links: [
-      { label: "Site vitrine", href: "/site-vitrine" },
-      { label: "Site acquisition", href: "/site-acquisition" },
-      { label: "Solutions métiers", href: "/solutions-metiers" },
-      { label: "Accompagnement mensuel", href: "/accompagnement" },
+      { label: "Expertises", href: "/#expertises" },
+      { label: "Offres", href: "/#offres" },
+      { label: "Le collectif", href: "/#collectif" },
+      { label: "Réalisations", href: "/realisations" },
     ],
   },
   {
-    title: "Agence",
+    title: "Travailler ensemble",
     links: [
-      { label: "Réalisations", href: "/realisations" },
-      { label: "Méthode", href: "/methode" },
-      { label: "À propos", href: "/a-propos" },
-      { label: "Contact", href: "/contact" },
+      { label: "Notre approche", href: "/#methode" },
+      { label: "Site vitrine", href: "/site-vitrine" },
+      { label: "Site acquisition", href: "/site-acquisition" },
+      { label: "Outil métier", href: "/solutions-metiers" },
     ],
   },
   {
     title: "Informations",
     links: [
+      { label: "Contact", href: "/contact" },
       { label: "Mentions légales", href: "/mentions-legales" },
-      { label: "Politique de confidentialité", href: "/politique-confidentialite" },
-      { label: "Gestion des cookies", href: "/cookies" },
+      { label: "Confidentialité", href: "/politique-confidentialite" },
+      { label: "Cookies", href: "/cookies" },
     ],
   },
 ] as const satisfies readonly FooterLinkGroup[];

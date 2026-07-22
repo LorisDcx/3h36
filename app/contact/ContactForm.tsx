@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   type ChangeEvent,
   type FormEvent,
@@ -11,6 +12,9 @@ import {
 const NEED_OPTIONS = [
   "Nouveau site vitrine",
   "Refonte d’un site existant",
+  "Identité ou création graphique",
+  "Photo ou vidéo",
+  "Contenus et réseaux sociaux",
   "Génération de demandes",
   "SEO",
   "Google Ads",
@@ -21,6 +25,8 @@ const NEED_OPTIONS = [
 
 const OBJECTIVE_OPTIONS = [
   "Présenter ou moderniser mon entreprise",
+  "Clarifier ou créer mon identité",
+  "Produire des images et contenus cohérents",
   "Obtenir davantage de demandes qualifiées",
   "Améliorer ma visibilité sur Google",
   "Automatiser un processus métier",
@@ -203,12 +209,12 @@ export default function ContactForm() {
           <a className="contact-button contact-button-primary" href="#rendez-vous">
             Prendre rendez-vous
           </a>
-          <a
+          <Link
             className="contact-button contact-button-secondary"
             href="/realisations"
           >
             Voir les réalisations
-          </a>
+          </Link>
           <button
             className="contact-button contact-button-quiet"
             type="button"

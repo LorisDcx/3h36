@@ -82,7 +82,7 @@ function RouteSpecificContent({ slug }: { slug: string }) {
   if (slug === "services") return <ComparisonTable />;
   if (slug === "methode") {
     return (
-      <ol className="process-grid" aria-label="Les sept étapes du projet">
+      <ol className="process-grid" aria-label="Les quatre étapes du projet">
         {processSteps.map((step) => <li className="process-step" key={step.number}><span>{step.number}</span><h3>{step.title}</h3></li>)}
       </ol>
     );

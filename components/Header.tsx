@@ -5,7 +5,8 @@ export function Logo() {
   return (
     <span className="brand" aria-label="3h36 Agency">
       <span className="brand-time">3h36</span>
-      <span className="brand-agency">Agency</span>
+      <span className="brand-agency">agency</span>
+      <span className="brand-signature">collectif web & communication</span>
     </span>
   );
 }
@@ -27,7 +28,7 @@ export function Header() {
         </nav>
 
         <Link className="button button-small header-cta" href="/contact">
-          Prendre rendez-vous
+          Parler de votre projet
         </Link>
 
         <details className="mobile-menu">
@@ -42,7 +43,7 @@ export function Header() {
               </Link>
             ))}
             <Link className="button" href="/contact">
-              Prendre rendez-vous
+              Parler de votre projet
             </Link>
           </nav>
         </details>
