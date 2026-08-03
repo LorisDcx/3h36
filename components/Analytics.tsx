@@ -23,9 +23,20 @@ function setAnalyticsDisabled(disabled: boolean) {
   (window as unknown as Record<string, unknown>)[`ga-disable-${GA_MEASUREMENT_ID}`] = disabled;
 }
 
-function configureGoogleAnalytics(onReady: () => void) {
-  const attribution = getLeadAttribution();
+function queueGoogleAnalyticsConfiguration() {
   setAnalyticsDisabled(false);
+
+  if (typeof window.gtag === "function") {
+    window.gtag("consent", "update", {
+      analytics_storage: "granted",
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+    });
+    return;
+  }
+
+  const attribution = getLeadAttribution();
   window.dataLayer = window.dataLayer ?? [];
   window.gtag = (...args: unknown[]) => {
     window.dataLayer?.push(args);
@@ -52,7 +63,6 @@ function configureGoogleAnalytics(onReady: () => void) {
     page_location: `${window.location.origin}${window.location.pathname}`,
     page_referrer: attribution?.referrer ?? "",
   });
-  onReady();
 }
 
 export function Analytics() {
@@ -65,8 +75,11 @@ export function Analytics() {
     if (!GA_ENABLED) return;
     const savedConsent = readAnalyticsConsent();
     if (savedConsent) {
+      if (savedConsent === "granted") {
+        captureLeadAttribution();
+        queueGoogleAnalyticsConfiguration();
+      }
       queueMicrotask(() => setConsent(savedConsent));
-      if (savedConsent === "granted") captureLeadAttribution();
     }
   }, []);
 
@@ -126,21 +139,18 @@ export function Analytics() {
 
   function chooseConsent(value: AnalyticsConsent) {
     saveAnalyticsConsent(value);
-    setConsent(value);
 
     if (value === "granted") {
-      setAnalyticsDisabled(false);
-      window.gtag?.("consent", "update", {
-        analytics_storage: "granted",
-        ad_storage: "denied",
-        ad_user_data: "denied",
-        ad_personalization: "denied",
-      });
       captureLeadAttribution();
-      if (typeof window.gtag === "function") setReady(true);
+      // Queue the full Google tag setup before its external script is added.
+      // gtag.js consumes this queue as it loads; configuring it afterwards
+      // leaves Tag Assistant with deferred hits.
+      queueGoogleAnalyticsConfiguration();
+      setConsent(value);
       return;
     }
 
+    setConsent(value);
     window.gtag?.("consent", "update", {
       analytics_storage: "denied",
       ad_storage: "denied",
@@ -160,14 +170,12 @@ export function Analytics() {
           id="google-analytics"
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
           strategy="afterInteractive"
-          onReady={() =>
-            configureGoogleAnalytics(() => {
-              // The config command sends the first page view. Remember it so the
-              // route effect below only emits page views for later SPA navigations.
-              lastPageViewRef.current = window.location.pathname;
-              setReady(true);
-            })
-          }
+          onReady={() => {
+            // The queued config command sends the first page view. Remember it so
+            // the route effect below only emits page views for later SPA navigations.
+            lastPageViewRef.current = window.location.pathname;
+            setReady(true);
+          }}
         />
       ) : null}
 
