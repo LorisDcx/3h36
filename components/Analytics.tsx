@@ -38,8 +38,11 @@ function queueGoogleAnalyticsConfiguration() {
 
   const attribution = getLeadAttribution();
   window.dataLayer = window.dataLayer ?? [];
-  window.gtag = (...args: unknown[]) => {
-    window.dataLayer?.push(args);
+  window.gtag = function gtag() {
+    // gtag.js reads command entries as JavaScript `arguments` objects. Using a
+    // rest-parameter array lets Tag Assistant see the command but leaves it
+    // deferred instead of dispatching the corresponding Analytics hit.
+    window.dataLayer?.push(arguments);
   };
 
   window.gtag("consent", "default", {
