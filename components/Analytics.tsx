@@ -45,7 +45,6 @@ function configureGoogleAnalytics(onReady: () => void) {
   });
   window.gtag("js", new Date());
   window.gtag("config", GA_MEASUREMENT_ID, {
-    send_page_view: false,
     allow_google_signals: false,
     allow_ad_personalization_signals: false,
     cookie_expires: ANALYTICS_COOKIE_LIFETIME_SECONDS,
@@ -161,7 +160,14 @@ export function Analytics() {
           id="google-analytics"
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
           strategy="afterInteractive"
-          onReady={() => configureGoogleAnalytics(() => setReady(true))}
+          onReady={() =>
+            configureGoogleAnalytics(() => {
+              // The config command sends the first page view. Remember it so the
+              // route effect below only emits page views for later SPA navigations.
+              lastPageViewRef.current = window.location.pathname;
+              setReady(true);
+            })
+          }
         />
       ) : null}
 
