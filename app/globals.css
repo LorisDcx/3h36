@@ -4563,60 +4563,6 @@ h3 {
   color: rgba(255, 255, 255, 0.58);
 }
 
-.home-contact-section {
-  padding: 112px 0;
-  border-bottom: 1px solid var(--line);
-  background:
-    radial-gradient(circle at 7% 84%, rgba(232, 83, 39, 0.08), transparent 27%),
-    radial-gradient(circle at 94% 13%, rgba(192, 210, 202, 0.42), transparent 28%),
-    var(--paper);
-}
-
-.home-contact-grid {
-  display: grid;
-  grid-template-columns: minmax(240px, 0.75fr) minmax(0, 1.25fr);
-  gap: clamp(46px, 8vw, 118px);
-  align-items: start;
-}
-
-.home-contact-copy {
-  padding-top: 18px;
-}
-
-.home-contact-copy h2 {
-  max-width: 540px;
-  margin-bottom: 20px;
-  font-size: clamp(2.7rem, 4.4vw, 4.5rem);
-  line-height: 0.95;
-}
-
-.home-contact-copy > p:not(.section-index, .kicker) {
-  max-width: 500px;
-  color: var(--ink-soft);
-  font-size: 0.96rem;
-  line-height: 1.65;
-}
-
-.home-contact-details {
-  display: grid;
-  gap: 7px;
-  margin-top: 28px;
-  padding-top: 22px;
-  border-top: 1px solid var(--line);
-}
-
-.home-contact-details a {
-  width: fit-content;
-  color: var(--night);
-  font-family: var(--serif);
-  font-size: 1.14rem;
-}
-
-.home-contact-details a:hover,
-.home-contact-details a:focus-visible {
-  color: var(--copper-dark);
-}
-
 /* Compact contact journey */
 .contact-main {
   background: var(--paper);
@@ -5025,7 +4971,6 @@ h3 {
   .expertise-grid,
   .subscription-grid,
   .collective-grid,
-  .home-contact-grid,
   .method-heading,
   .faq-grid-v2,
   .contact-band-inner {
@@ -5199,11 +5144,6 @@ h3 {
     padding: 58px 0 72px;
   }
 
-  .home-contact-copy {
-    max-width: 620px;
-    padding-top: 0;
-  }
-
   .contact-compact-grid {
     grid-template-columns: 1fr;
     gap: 38px;
@@ -5295,8 +5235,7 @@ h3 {
   .agency-intro,
   .agency-section,
   .method-section,
-  .collective-section,
-  .home-contact-section {
+  .collective-section {
     padding: 78px 0;
   }
 
