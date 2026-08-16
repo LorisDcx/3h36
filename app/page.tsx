@@ -1,12 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
-import ContactForm from "@/app/contact/ContactForm";
 import { ProjectCarousel } from "@/components/ProjectCarousel";
 import { seoArticles } from "@/lib/seo-articles";
 import {
   clientMarks,
   collectiveRoles,
-  contact,
   expertises,
   faqItems,
   monthlyPlans,
@@ -94,8 +92,6 @@ function ClientLogo({ client, duplicate = false }: { client: ClientMark; duplica
 }
 
 export default function Home() {
-  const phoneHref = `tel:${contact.phone.replace(/[^+\d]/g, "")}`;
-
   return (
     <main id="contenu">
       <section className="agency-hero" aria-labelledby="hero-title">
@@ -112,9 +108,9 @@ export default function Home() {
               startups et experts indépendants à être mieux compris, mieux trouvés et plus souvent contactés.
             </p>
             <div className="cta-row">
-              <a className="button" href="#contact">
+              <Link className="button" href="/contact">
                 Parler de votre projet <span aria-hidden="true">↗</span>
-              </a>
+              </Link>
               <a className="button button-secondary" href="#expertises">
                 Découvrir les expertises
               </a>
@@ -152,24 +148,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-      </section>
-
-      <section className="home-contact-section" id="contact" aria-labelledby="home-contact-title">
-        <div className="shell home-contact-grid">
-          <div className="home-contact-copy">
-            <p className="section-index">Un projet en tête ?</p>
-            <p className="kicker">Le formulaire est ici, sans détour</p>
-            <h2 id="home-contact-title">Parlons de l’essentiel avant de parler solution.</h2>
-            <p>
-              Présentez votre activité, ce que vous voulez améliorer et l’échéance visée. Quelques lignes suffisent pour revenir avec le bon prochain pas.
-            </p>
-            <div className="home-contact-details" aria-label="Coordonnées de 3h36 Agency">
-              <a href={phoneHref}>{contact.phone}</a>
-              <a href={`mailto:${contact.email}`}>{contact.email}</a>
-            </div>
-          </div>
-          <ContactForm />
-        </div>
       </section>
 
       <section className="agency-intro" aria-labelledby="intro-title">
