@@ -1,10 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
+import ContactForm from "@/app/contact/ContactForm";
 import { ProjectCarousel } from "@/components/ProjectCarousel";
 import { seoArticles } from "@/lib/seo-articles";
 import {
   clientMarks,
   collectiveRoles,
+  contact,
   expertises,
   faqItems,
   monthlyPlans,
@@ -92,6 +94,8 @@ function ClientLogo({ client, duplicate = false }: { client: ClientMark; duplica
 }
 
 export default function Home() {
+  const phoneHref = `tel:${contact.phone.replace(/[^+\d]/g, "")}`;
+
   return (
     <main id="contenu">
       <section className="agency-hero" aria-labelledby="hero-title">
@@ -108,9 +112,9 @@ export default function Home() {
               startups et experts indépendants à être mieux compris, mieux trouvés et plus souvent contactés.
             </p>
             <div className="cta-row">
-              <Link className="button" href="/contact">
+              <a className="button" href="#contact">
                 Parler de votre projet <span aria-hidden="true">↗</span>
-              </Link>
+              </a>
               <a className="button button-secondary" href="#expertises">
                 Découvrir les expertises
               </a>
@@ -127,8 +131,8 @@ export default function Home() {
               unoptimized
             />
             <figcaption>
-              <strong>Trois savoir-faire, une direction commune</strong>
-              <span>Web</span><span>Design</span><span>Acquisition</span>
+              <strong>Deux profils, une direction commune</strong>
+              <span>Web</span><span>Communication</span><span>Image</span>
             </figcaption>
           </figure>
         </div>
@@ -150,11 +154,29 @@ export default function Home() {
         </section>
       </section>
 
+      <section className="home-contact-section" id="contact" aria-labelledby="home-contact-title">
+        <div className="shell home-contact-grid">
+          <div className="home-contact-copy">
+            <p className="section-index">Un projet en tête ?</p>
+            <p className="kicker">Le formulaire est ici, sans détour</p>
+            <h2 id="home-contact-title">Parlons de l’essentiel avant de parler solution.</h2>
+            <p>
+              Présentez votre activité, ce que vous voulez améliorer et l’échéance visée. Quelques lignes suffisent pour revenir avec le bon prochain pas.
+            </p>
+            <div className="home-contact-details" aria-label="Coordonnées de 3h36 Agency">
+              <a href={phoneHref}>{contact.phone}</a>
+              <a href={`mailto:${contact.email}`}>{contact.email}</a>
+            </div>
+          </div>
+          <ContactForm />
+        </div>
+      </section>
+
       <section className="agency-intro" aria-labelledby="intro-title">
         <div className="shell intro-heading-row">
           <div className="intro-label">
             <p className="section-index">01 — Qui sommes-nous ?</p>
-            <p className="kicker">Trois indépendants, une seule direction</p>
+            <p className="kicker">Deux indépendants, une même direction</p>
           </div>
           <h2 id="intro-title">
             La précision d’une agence, <em>la souplesse d’un collectif.</em>
@@ -291,10 +313,10 @@ export default function Home() {
         <div className="shell collective-grid">
           <div className="collective-statement">
             <p className="section-index section-index-light">03 — Le collectif</p>
-            <p className="kicker">Trois indépendants, une direction commune</p>
+            <p className="kicker">Deux profils complémentaires</p>
             <h2 id="collective-title">Les compétences d’une équipe, sans multiplier les interlocuteurs.</h2>
             <p>
-              Le noyau réunit trois métiers complémentaires. Selon le projet, chacun intervient au bon moment, tandis qu’un interlocuteur principal garde le fil des décisions, du budget et du planning.
+              Loris et Lilian réunissent web, acquisition, communication et direction graphique. Selon le projet, chacun intervient au bon moment, tandis qu’un interlocuteur principal garde le fil des décisions, du budget et du planning.
             </p>
             <Link className="button button-light" href="/contact">Rencontrer le collectif <span aria-hidden="true">↗</span></Link>
           </div>
@@ -302,7 +324,7 @@ export default function Home() {
             {collectiveRoles.map((profile) => (
               <li key={profile.number}>
                 <span>{profile.number}</span>
-                <div><h3>{profile.role}</h3><p>{profile.description}</p></div>
+                <div><p className="collective-role-name">{profile.name}</p><h3>{profile.role}</h3><p>{profile.description}</p></div>
               </li>
             ))}
           </ol>

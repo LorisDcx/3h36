@@ -352,9 +352,9 @@ export const seoCommercialPagesBySlug: Record<
   "site-internet-batiment-savoie": {
     slug: "site-internet-batiment-savoie",
     seo: {
-      title: "Site internet pour entreprise du bâtiment en Savoie | 3h36",
+      title: "Site d’acquisition pour le bâtiment en Savoie dès 2 500 € | 3h36",
       description:
-        "Sites et acquisition pour artisans et entreprises du bâtiment en Savoie : chantiers, services, zones, devis, SEO local et Google Ads mesurés.",
+        "Site d’acquisition pour artisans et entreprises du bâtiment en Savoie : SEO local, demandes de devis qualifiées et suivi des conversions, dès 2 500 € HT.",
     },
     eyebrow: "Présence digitale pour les métiers du bâtiment",
     h1: "Un site de bâtiment qui montre votre savoir-faire et prépare de meilleurs devis.",

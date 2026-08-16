@@ -411,18 +411,15 @@ export const monthlyPlans = [
 export const collectiveRoles = [
   {
     number: "01",
+    name: "Loris",
     role: "Stratégie, web & acquisition",
     description: "Cadrage, expérience, développement, SEO/SEA et pilotage des actions mesurables.",
   },
   {
     number: "02",
-    role: "Identité & création graphique",
+    name: "Lilian",
+    role: "Communication, image & direction graphique",
     description: "Direction artistique, identité visuelle, systèmes graphiques et déclinaisons de marque.",
-  },
-  {
-    number: "03",
-    role: "Photo & vidéo",
-    description: "Conception visuelle, prises de vue, montage et formats adaptés aux différents canaux.",
   },
 ] as const;
 
@@ -433,7 +430,7 @@ export const faqItems = [
   },
   {
     question: "Avec qui vais-je travailler ?",
-    answer: "3h36 agency réunit trois indépendants complémentaires. Vous gardez un interlocuteur principal, puis les expertises web, design, acquisition, photo ou vidéo interviennent selon le besoin réel du projet.",
+    answer: "3h36 agency réunit Loris, pour la stratégie web et l’acquisition, et Lilian, pour la communication, l’image et la direction graphique. Vous gardez un interlocuteur principal et les expertises sont activées selon le besoin réel du projet.",
   },
   {
     question: "Combien de temps faut-il prévoir ?",
@@ -510,8 +507,8 @@ export const footerLinks = [
 ] as const satisfies readonly FooterLinkGroup[];
 
 export const contact = {
-  email: "Lorisdcx.pro@gmail.com",
-  phone: "",
+  email: "contact@3h36agency.fr",
+  phone: "06 11 15 75 01",
   location: "Savoie",
   note: "Projets locaux et à distance.",
 } as const satisfies ContactDetails;

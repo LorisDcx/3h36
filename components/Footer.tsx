@@ -30,6 +30,7 @@ export function Footer() {
 
         <div className="footer-column footer-contact">
           <h2>Parlons de votre projet</h2>
+          {contact.phone ? <a href={`tel:${contact.phone.replace(/[^+\d]/g, "")}`}>{contact.phone}</a> : null}
           {contact.email ? <a href={`mailto:${contact.email}`}>{contact.email}</a> : null}
           <p>{contact.location}</p>
           <Link href="/contact" className="text-link text-link-light">

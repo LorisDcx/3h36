@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { SeoCommercialPage } from "@/lib/seo-pages";
+import { BatimentLandingPage } from "./BatimentLandingPage";
 
 const SITE_URL = "https://www.3h36agency.fr";
 
@@ -11,6 +12,8 @@ function getAreaServed(slug: string) {
 }
 
 export function CommercialSeoPage({ page }: { page: SeoCommercialPage }) {
+  if (page.slug === "site-internet-batiment-savoie") return <BatimentLandingPage />;
+
   const canonicalPath = `/${page.slug}`;
   const breadcrumbSchema = {
     "@context": "https://schema.org",

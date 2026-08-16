@@ -1,32 +1,16 @@
 import { checkLeadRateLimit } from "@/lib/lead-rate-limit";
 
-const NEEDS = {
-  "project-contact": {
-    label: "Nouveau projet",
-  },
-  "web-growth-tools": {
-    label: "Site web, acquisition & outils",
-  },
-  "photo-video": {
-    label: "Photo & vidéo",
-  },
-  "identity-content": {
-    label: "Identité & contenu",
-  },
-} as const;
-
-const FOCUSES = {
-  site: { label: "Site web & outils" },
-  visibility: { label: "Visibilité & acquisition" },
-  image: { label: "Image & contenus" },
+const PROJECTS = {
+  "site-vitrine": "Site vitrine",
+  "site-acquisition": "Site acquisition",
+  refonte: "Refonte de site",
 } as const;
 
 const DEFAULT_CONTACT_EMAIL = "contact@3h36agency.fr";
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-type NeedKey = keyof typeof NEEDS;
-type FocusKey = keyof typeof FOCUSES;
-
-type ContactAttribution = {
+type ProjectKey = keyof typeof PROJECTS;
+type LeadAttribution = {
   landingPage: string;
   referrer: string;
   source: string;
@@ -36,28 +20,20 @@ type ContactAttribution = {
   term: string;
 };
 
-type ContactPayload = {
-  need: NeedKey;
-  focus: FocusKey | "";
+type LaunchOfferPayload = {
+  projectType: ProjectKey;
   name: string;
   company: string;
   email: string;
   phone: string;
+  website: string;
+  budget: string;
+  timeline: string;
   description: string;
   consent: true;
-  contactUrl?: string;
-  attribution: ContactAttribution | null;
+  websiteUrl?: string;
+  attribution: LeadAttribution | null;
 };
-
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-function isNeedKey(value: string): value is NeedKey {
-  return value in NEEDS;
-}
-
-function isFocusKey(value: string): value is FocusKey {
-  return value in FOCUSES;
-}
 
 function cleanText(value: unknown, maxLength: number) {
   return typeof value === "string" ? value.trim().slice(0, maxLength) : "";
@@ -84,6 +60,10 @@ function cleanReferrer(value: unknown) {
   }
 }
 
+function isProjectKey(value: string): value is ProjectKey {
+  return value in PROJECTS;
+}
+
 function escapeHtml(value: string) {
   return value
     .replaceAll("&", "&amp;")
@@ -93,7 +73,7 @@ function escapeHtml(value: string) {
     .replaceAll("'", "&#039;");
 }
 
-function parseAttribution(value: unknown): ContactAttribution | null {
+function parseAttribution(value: unknown): LeadAttribution | null {
   if (!value || typeof value !== "object") return null;
   const input = value as Record<string, unknown>;
   const attribution = {
@@ -109,35 +89,50 @@ function parseAttribution(value: unknown): ContactAttribution | null {
   return Object.values(attribution).some(Boolean) ? attribution : null;
 }
 
-function parsePayload(value: unknown): ContactPayload | null {
+function parsePayload(value: unknown): LaunchOfferPayload | null {
   if (!value || typeof value !== "object") return null;
-
   const input = value as Record<string, unknown>;
-  const need = cleanText(input.need, 40);
-  const focusValue = cleanText(input.focus, 40);
+
+  const projectType = cleanText(input.projectType, 40);
   const name = cleanText(input.name, 100);
   const company = cleanText(input.company, 120);
   const email = cleanText(input.email, 200).toLowerCase();
   const phone = cleanText(input.phone, 40);
-  const description = cleanText(input.description, 3000);
-  const contactUrl = cleanText(input.contactUrl, 300);
+  const website = cleanText(input.website, 300);
+  const budget = cleanText(input.budget, 80);
+  const timeline = cleanText(input.timeline, 80);
+  const description = cleanText(input.description, 2000);
+  const websiteUrl = cleanText(input.websiteUrl, 300);
   const attribution = parseAttribution(input.attribution);
 
   if (
-    !isNeedKey(need) ||
-    (focusValue && !isFocusKey(focusValue)) ||
+    !isProjectKey(projectType) ||
     name.length < 2 ||
     company.length < 2 ||
     !EMAIL_PATTERN.test(email) ||
+    phone.length < 6 ||
+    !budget ||
+    !timeline ||
     description.length < 20 ||
     input.consent !== true
   ) {
     return null;
   }
 
-  const focus: FocusKey | "" = isFocusKey(focusValue) ? focusValue : "";
-
-  return { need, focus, name, company, email, phone, description, consent: true, contactUrl, attribution };
+  return {
+    projectType,
+    name,
+    company,
+    email,
+    phone,
+    website,
+    budget,
+    timeline,
+    description,
+    consent: true,
+    websiteUrl,
+    attribution,
+  };
 }
 
 export async function POST(request: Request) {
@@ -168,18 +163,11 @@ export async function POST(request: Request) {
 
   const payload = parsePayload(input);
   if (!payload) {
-    return Response.json(
-      { message: "Vérifiez les champs obligatoires avant de réessayer." },
-      { status: 400 },
-    );
+    return Response.json({ message: "Vérifiez les champs obligatoires avant de réessayer." }, { status: 400 });
   }
 
-  if (payload.contactUrl) {
-    return Response.json({ ok: true });
-  }
+  if (payload.websiteUrl) return Response.json({ ok: true });
 
-  const need = NEEDS[payload.need];
-  const focus = payload.focus ? FOCUSES[payload.focus] : null;
   const recipient = process.env.CONTACT_EMAIL?.trim() || DEFAULT_CONTACT_EMAIL;
   const apiKey = process.env.RESEND_API_KEY?.trim();
   const from = process.env.CONTACT_FROM_EMAIL?.trim();
@@ -191,13 +179,18 @@ export async function POST(request: Request) {
     );
   }
 
-  const safeName = escapeHtml(payload.name);
-  const safeCompany = escapeHtml(payload.company);
-  const safeEmail = escapeHtml(payload.email);
-  const safePhone = escapeHtml(payload.phone || "Non renseigné");
-  const safeDescription = escapeHtml(payload.description).replaceAll("\n", "<br>");
-  const safeNeed = escapeHtml(need.label);
-  const safeFocus = escapeHtml(focus?.label || "Non précisé");
+  const project = PROJECTS[payload.projectType];
+  const safe = {
+    project: escapeHtml(project),
+    name: escapeHtml(payload.name),
+    company: escapeHtml(payload.company),
+    email: escapeHtml(payload.email),
+    phone: escapeHtml(payload.phone),
+    website: escapeHtml(payload.website || "Non renseigné"),
+    budget: escapeHtml(payload.budget),
+    timeline: escapeHtml(payload.timeline),
+    description: escapeHtml(payload.description).replaceAll("\n", "<br>"),
+  };
   const attributionText = payload.attribution
     ? [
         "",
@@ -211,13 +204,15 @@ export async function POST(request: Request) {
     : [];
   const attributionHtml = payload.attribution
     ? `
-        <hr style="border:0;border-top:1px solid #d9d9d9;margin:24px 0">
-        <h2 style="font-size:16px;margin:0 0 14px">Attribution de navigation jointe à la demande</h2>
-        <p><strong>Page d’entrée :</strong> ${escapeHtml(payload.attribution.landingPage || "Non renseignée")}</p>
-        <p><strong>Référent :</strong> ${escapeHtml(payload.attribution.referrer || "Accès direct / non attribué")}</p>
-        <p><strong>Source / support :</strong> ${escapeHtml(payload.attribution.source || "Non renseignée")} / ${escapeHtml(payload.attribution.medium || "Non renseigné")}</p>
-        <p><strong>Campagne :</strong> ${escapeHtml(payload.attribution.campaign || "Non renseignée")}</p>
-        <p><strong>Contenu / terme :</strong> ${escapeHtml(payload.attribution.content || "Non renseigné")} / ${escapeHtml(payload.attribution.term || "Non renseigné")}</p>
+        <hr style="border:0;border-top:1px solid #e1d8d0;margin:24px 0">
+        <p style="color:#526873;font-size:12px"><strong>Attribution de navigation</strong></p>
+        <p style="color:#526873;font-size:12px">
+          Page : ${escapeHtml(payload.attribution.landingPage || "Non renseignée")}<br>
+          Référent : ${escapeHtml(payload.attribution.referrer || "Accès direct / non attribué")}<br>
+          Source / support : ${escapeHtml(payload.attribution.source || "Non renseignée")} / ${escapeHtml(payload.attribution.medium || "Non renseigné")}<br>
+          Campagne : ${escapeHtml(payload.attribution.campaign || "Non renseignée")}<br>
+          Contenu / terme : ${escapeHtml(payload.attribution.content || "Non renseigné")} / ${escapeHtml(payload.attribution.term || "Non renseigné")}
+        </p>
       `
     : "";
 
@@ -231,35 +226,45 @@ export async function POST(request: Request) {
       from,
       to: [recipient],
       reply_to: payload.email,
-      subject: `[3h36] ${focus?.label || need.label} · ${payload.company}`,
+      subject: `[3h36 · Offre lancement] ${project} · ${payload.company}`,
       text: [
-        `Besoin : ${need.label}`,
-        `Sujet principal : ${focus?.label || "Non précisé"}`,
+        `Projet : ${project}`,
         `Nom : ${payload.name}`,
         `Entreprise : ${payload.company}`,
         `E-mail : ${payload.email}`,
-        `Téléphone : ${payload.phone || "Non renseigné"}`,
+        `Téléphone : ${payload.phone}`,
+        `Site actuel : ${payload.website || "Non renseigné"}`,
+        `Budget : ${payload.budget}`,
+        `Échéance : ${payload.timeline}`,
         "",
+        "Objectif :",
         payload.description,
         ...attributionText,
       ].join("\n"),
       html: `
-        <h1 style="font-size:22px;margin:0 0 20px">Nouvelle demande 3h36</h1>
-        <p><strong>Besoin :</strong> ${safeNeed}</p>
-        <p><strong>Sujet principal :</strong> ${safeFocus}</p>
-        <p><strong>Nom :</strong> ${safeName}</p>
-        <p><strong>Entreprise :</strong> ${safeCompany}</p>
-        <p><strong>E-mail :</strong> ${safeEmail}</p>
-        <p><strong>Téléphone :</strong> ${safePhone}</p>
-        <hr style="border:0;border-top:1px solid #d9d9d9;margin:24px 0">
-        <p style="line-height:1.6">${safeDescription}</p>
-        ${attributionHtml}
+        <div style="font-family:Arial,sans-serif;color:#102b3a;line-height:1.55">
+          <p style="color:#c9461d;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">Offre de lancement 3h36</p>
+          <h1 style="font-family:Georgia,serif;font-size:26px;margin:0 0 22px">Nouvelle demande — ${safe.project}</h1>
+          <table style="border-collapse:collapse;width:100%;max-width:680px">
+            <tr><td style="padding:7px 0;color:#526873">Entreprise</td><td style="padding:7px 0"><strong>${safe.company}</strong></td></tr>
+            <tr><td style="padding:7px 0;color:#526873">Contact</td><td style="padding:7px 0">${safe.name}</td></tr>
+            <tr><td style="padding:7px 0;color:#526873">E-mail</td><td style="padding:7px 0">${safe.email}</td></tr>
+            <tr><td style="padding:7px 0;color:#526873">Téléphone</td><td style="padding:7px 0">${safe.phone}</td></tr>
+            <tr><td style="padding:7px 0;color:#526873">Site actuel</td><td style="padding:7px 0">${safe.website}</td></tr>
+            <tr><td style="padding:7px 0;color:#526873">Budget</td><td style="padding:7px 0">${safe.budget}</td></tr>
+            <tr><td style="padding:7px 0;color:#526873">Échéance</td><td style="padding:7px 0">${safe.timeline}</td></tr>
+          </table>
+          <hr style="border:0;border-top:1px solid #e1d8d0;margin:24px 0">
+          <p><strong>Objectif du projet</strong></p>
+          <p>${safe.description}</p>
+          ${attributionHtml}
+        </div>
       `,
     }),
   });
 
   if (!response.ok) {
-    console.error("Contact e-mail provider rejected the request", response.status);
+    console.error("Launch offer e-mail provider rejected the request", response.status);
     return Response.json(
       { message: "L’envoi n’a pas pu aboutir. Réessayez dans un instant." },
       { status: 502 },

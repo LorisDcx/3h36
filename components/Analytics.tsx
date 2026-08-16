@@ -38,11 +38,10 @@ function queueGoogleAnalyticsConfiguration() {
 
   const attribution = getLeadAttribution();
   window.dataLayer = window.dataLayer ?? [];
-  window.gtag = function gtag() {
-    // gtag.js reads command entries as JavaScript `arguments` objects. Using a
-    // rest-parameter array lets Tag Assistant see the command but leaves it
-    // deferred instead of dispatching the corresponding Analytics hit.
-    window.dataLayer?.push(arguments);
+  window.gtag = (...args: unknown[]) => {
+    // gtag.js consumes queued commands from dataLayer. Keeping each command as
+    // an array preserves its argument order until the external script loads.
+    window.dataLayer?.push(args);
   };
 
   window.gtag("consent", "default", {
@@ -121,10 +120,15 @@ export function Analytics() {
       if (!anchor) return;
 
       const href = anchor.getAttribute("href") ?? "";
-      if (href === "/contact" || href.startsWith("/contact?")) {
+      if (href === "/contact" || href.startsWith("/contact?") || (href === "#contact" && window.location.pathname === "/")) {
         trackAnalyticsEvent("contact_cta_click", {
           page_path: window.location.pathname,
           link_text: (anchor.textContent ?? "Contact").trim().slice(0, 100),
+        });
+      } else if (href === "#diagnostic" && window.location.pathname === "/site-internet-batiment-savoie") {
+        trackAnalyticsEvent("batiment_diagnostic_cta_click", {
+          page_path: window.location.pathname,
+          link_text: (anchor.textContent ?? "Diagnostic").trim().slice(0, 100),
         });
       } else if (href.startsWith("mailto:") || href.startsWith("tel:")) {
         trackAnalyticsEvent("contact_link_click", {

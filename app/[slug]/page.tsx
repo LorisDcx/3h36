@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CommercialSeoPage } from "@/components/CommercialSeoPage";
+import { TeamProfiles } from "@/components/TeamProfiles";
 import { pageContentByRoute, type PageRoute } from "@/lib/page-content";
 import { seoCommercialPagesBySlug, type SeoCommercialPageSlug } from "@/lib/seo-pages";
 import { monthlyPlans, offers, processSteps, projects } from "@/lib/site-data";
@@ -183,6 +184,7 @@ function RouteSpecificContent({ slug }: { slug: string }) {
       </div>
     );
   }
+  if (slug === "a-propos") return <TeamProfiles />;
   return null;
 }
 

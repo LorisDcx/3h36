@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { Analytics } from "@/components/Analytics";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
+import { SiteChrome } from "@/components/SiteChrome";
 import "./globals.css";
 
 const SITE_URL = "https://www.3h36agency.fr";
@@ -61,7 +59,7 @@ export const metadata: Metadata = {
     siteName: "3h36 Agency",
     title: "Une image claire, un site solide et une visibilité augmentée.",
     description:
-      "Un collectif web, design et acquisition en Savoie. Trois expertises complémentaires, un interlocuteur principal.",
+      "Un collectif web, communication et image en Savoie. Un interlocuteur principal, des expertises coordonnées.",
     images: [
       {
         url: SOCIAL_IMAGE,
@@ -89,9 +87,10 @@ const organizationSchema = {
       "@id": organizationId,
       name: "3h36 Agency",
       url: SITE_URL,
-      email: "Lorisdcx.pro@gmail.com",
+      email: "contact@3h36agency.fr",
+      telephone: "+33 6 11 15 75 01",
       description:
-        "Collectif de trois indépendants spécialisé en stratégie, web, identité, contenus, photo, vidéo et acquisition.",
+        "Collectif de deux indépendants spécialisé en stratégie web, acquisition, communication, image et direction graphique.",
       image: {
         "@type": "ImageObject",
         url: SOCIAL_IMAGE,
@@ -116,7 +115,8 @@ const organizationSchema = {
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "sales",
-        email: "Lorisdcx.pro@gmail.com",
+        email: "contact@3h36agency.fr",
+        telephone: "+33 6 11 15 75 01",
         availableLanguage: "fr",
       },
       hasOfferCatalog: {
@@ -146,13 +146,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="fr">
       <body>
-        <a className="skip-link" href="#contenu">
-          Aller au contenu
-        </a>
-        <Header />
-        {children}
-        <Footer />
-        <Analytics />
+        <SiteChrome>{children}</SiteChrome>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}

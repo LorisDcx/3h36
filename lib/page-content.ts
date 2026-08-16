@@ -435,14 +435,14 @@ export const pageContentByRoute: Record<PageRoute, PageContent> = {
 
   "/a-propos": {
     slug: "a-propos",
-    eyebrow: "Trois indépendants réunis en Savoie",
+    eyebrow: "Deux indépendants réunis en Savoie",
     title: "Un collectif complémentaire, une direction commune",
     description:
-      "3h36 agency réunit stratégie web et acquisition, identité graphique, photo et vidéo pour construire des marques et des dispositifs cohérents.",
+      "3h36 agency réunit Loris, pour la stratégie web et l’acquisition, et Lilian, pour la communication, l’image et la direction graphique.",
     seo: {
       title: "Le collectif web et créatif 3h36 en Savoie",
       description:
-        "Trois indépendants complémentaires pour relier stratégie, identité, sites, contenus, photo, vidéo et acquisition en Savoie et à distance.",
+        "Deux indépendants complémentaires pour relier stratégie web, acquisition, communication, image et direction graphique en Savoie et à distance.",
     },
     sections: [
       {
