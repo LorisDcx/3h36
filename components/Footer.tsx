@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { contact, footerLinks } from "@/lib/site-data";
+import { AnalyticsConsentButton } from "./Analytics";
 import { Logo } from "./Header";
 
 export function Footer() {
@@ -11,8 +12,8 @@ export function Footer() {
             <Logo />
           </Link>
           <p>
-            Un collectif web, design et acquisition basé en Savoie.
-            Trois expertises complémentaires, un interlocuteur principal.
+            Agence web, image et acquisition basée en Savoie. Sites, SEO, GEO,
+            identité et contenus réunis autour d’une direction commune.
           </p>
         </div>
 
@@ -29,6 +30,7 @@ export function Footer() {
 
         <div className="footer-column footer-contact">
           <h2>Parlons de votre projet</h2>
+          {contact.phone ? <a href={`tel:${contact.phone.replace(/[^+\d]/g, "")}`}>{contact.phone}</a> : null}
           {contact.email ? <a href={`mailto:${contact.email}`}>{contact.email}</a> : null}
           <p>{contact.location}</p>
           <Link href="/contact" className="text-link text-link-light">
@@ -38,7 +40,10 @@ export function Footer() {
       </div>
       <div className="shell footer-bottom">
         <p>© {new Date().getFullYear()} 3h36 Agency</p>
-        <p>Image claire · site solide · visibilité augmentée</p>
+        <div>
+          <p>Image claire · site solide · visibilité augmentée</p>
+          <AnalyticsConsentButton />
+        </div>
       </div>
     </footer>
   );

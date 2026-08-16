@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { getLeadAttribution, trackAnalyticsEvent } from "@/lib/analytics-client";
 import {
   type ChangeEvent,
   type FormEvent,
@@ -9,30 +10,11 @@ import {
   useState,
 } from "react";
 
-const NEED_OPTIONS = [
-  {
-    value: "web-growth-tools",
-    title: "Site web, acquisition & outils",
-    description: "Sites · SEO · Google Ads · automatisation",
-  },
-  {
-    value: "photo-video",
-    title: "Photo & vidéo",
-    description: "Prise de vue · montage · formats",
-  },
-  {
-    value: "identity-content",
-    title: "Identité & contenu",
-    description: "Identité visuelle · design · contenus",
-  },
-] as const;
-
-const STEP_LABELS = ["Votre besoin", "Votre entreprise & votre projet"] as const;
-
-type NeedValue = (typeof NEED_OPTIONS)[number]["value"];
+const CONTACT_NEED = "project-contact";
 
 type ContactFormValues = {
-  need: NeedValue | "";
+  need: typeof CONTACT_NEED;
+  focus: "" | "site" | "visibility" | "image";
   name: string;
   company: string;
   email: string;
@@ -43,7 +25,8 @@ type ContactFormValues = {
 };
 
 const INITIAL_VALUES: ContactFormValues = {
-  need: "",
+  need: CONTACT_NEED,
+  focus: "",
   name: "",
   company: "",
   email: "",
@@ -54,30 +37,38 @@ const INITIAL_VALUES: ContactFormValues = {
 };
 
 export default function ContactForm() {
-  const [step, setStep] = useState(1);
   const [values, setValues] = useState<ContactFormValues>(INITIAL_VALUES);
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const confirmationRef = useRef<HTMLElement>(null);
+  const formStartedRef = useRef(false);
 
   useEffect(() => {
     if (status === "success") confirmationRef.current?.focus();
   }, [status]);
 
+  const markFormStarted = () => {
+    if (formStartedRef.current) return;
+
+    trackAnalyticsEvent("contact_form_start", {
+      form_name: "project_contact",
+      need_category: values.need,
+    });
+    formStartedRef.current = true;
+  };
+
   const updateField =
     (field: Exclude<keyof ContactFormValues, "consent">) =>
-    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
       const value = event.target.value;
       setValues((current) => ({ ...current, [field]: value }));
+      if (status === "error") setStatus("idle");
+      setErrorMessage("");
     };
-
-  const goToNextStep = (event: FormEvent<HTMLButtonElement>) => {
-    if (!event.currentTarget.form?.reportValidity()) return;
-    setStep(2);
-  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    markFormStarted();
     setStatus("sending");
     setErrorMessage("");
 
@@ -85,7 +76,7 @@ export default function ContactForm() {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...values, attribution: getLeadAttribution() }),
       });
       const payload = await response.json().catch(() => null) as { message?: string } | null;
 
@@ -93,8 +84,16 @@ export default function ContactForm() {
         throw new Error(payload?.message || "L’envoi n’a pas pu aboutir. Réessayez dans un instant.");
       }
 
+      trackAnalyticsEvent("generate_lead", {
+        form_name: "project_contact",
+        need_category: values.need,
+      });
       setStatus("success");
     } catch (error) {
+      trackAnalyticsEvent("contact_form_error", {
+        form_name: "project_contact",
+        need_category: values.need,
+      });
       setStatus("error");
       setErrorMessage(
         error instanceof Error
@@ -108,15 +107,13 @@ export default function ContactForm() {
     setValues(INITIAL_VALUES);
     setStatus("idle");
     setErrorMessage("");
-    setStep(1);
+    formStartedRef.current = false;
   };
-
-  const selectedNeed = NEED_OPTIONS.find((option) => option.value === values.need);
 
   if (status === "success") {
     return (
       <section
-        className="contact-panel contact-confirmation contact-confirmation-compact"
+        className="contact-panel contact-panel-direct contact-confirmation contact-confirmation-compact"
         ref={confirmationRef}
         tabIndex={-1}
         aria-labelledby="contact-confirmation-title"
@@ -126,8 +123,7 @@ export default function ContactForm() {
           Merci {values.name}.
         </h2>
         <p className="contact-confirmation-copy">
-          Votre message a bien été transmis à l’équipe {selectedNeed?.title.toLowerCase()}.
-          Nous revenons vers vous dès que possible.
+          Votre demande est bien arrivée. Nous la lisons avec attention avant de revenir vers vous avec le bon prochain pas.
         </p>
         <div className="contact-confirmation-actions">
           <Link className="contact-button contact-button-primary" href="/realisations">
@@ -142,205 +138,166 @@ export default function ContactForm() {
   }
 
   return (
-    <section className="contact-panel" aria-labelledby="contact-form-title">
-      <div className="contact-progress contact-progress-compact">
-        <div
-          className="contact-progress-bar"
-          role="progressbar"
-          aria-label="Progression du formulaire"
-          aria-valuemin={1}
-          aria-valuemax={2}
-          aria-valuenow={step}
-          aria-valuetext={`Étape ${step} sur 2 : ${STEP_LABELS[step - 1]}`}
-        >
-          <span className="contact-progress-value" style={{ width: `${(step / 2) * 100}%` }} />
-        </div>
-        <ol className="contact-progress-steps" aria-label="Étapes du formulaire">
-          {STEP_LABELS.map((label, index) => {
-            const stepNumber = index + 1;
-            return (
-              <li
-                className="contact-progress-step"
-                aria-current={stepNumber === step ? "step" : undefined}
-                key={label}
+    <section className="contact-panel contact-panel-direct" aria-labelledby="contact-form-title">
+      <form className="contact-form contact-form-compact" onSubmit={handleSubmit} onFocusCapture={markFormStarted}>
+        <fieldset className="contact-fieldset" aria-labelledby="contact-form-title">
+          <legend className="sr-only">Votre projet</legend>
+          <p className="contact-form-kicker">Un projet, quelques repères</p>
+          <h2 className="contact-legend" id="contact-form-title">Parlons de l’essentiel.</h2>
+          <p className="contact-step-intro">
+            Présentez simplement votre activité, ce que vous voulez faire évoluer et votre priorité du moment.
+          </p>
+
+          <div className="contact-fields-grid contact-fields-compact">
+            <div className="contact-field contact-field-wide">
+              <label className="contact-label" htmlFor="contact-focus">
+                Votre sujet principal <span className="contact-optional">facultatif</span>
+              </label>
+              <select
+                className="contact-select contact-select-compact"
+                id="contact-focus"
+                name="focus"
+                value={values.focus}
+                onChange={updateField("focus")}
               >
-                <span className="contact-progress-number" aria-hidden="true">{stepNumber}</span>
-                <span className="contact-progress-label">{label}</span>
-              </li>
-            );
-          })}
-        </ol>
-      </div>
+                <option value="">Choisir si vous avez déjà une idée</option>
+                <option value="site">Site web &amp; outils</option>
+                <option value="visibility">Visibilité &amp; acquisition</option>
+                <option value="image">Image &amp; contenus</option>
+              </select>
+            </div>
 
-      <form className="contact-form contact-form-compact" onSubmit={handleSubmit}>
-        <div className="contact-step-body">
-          {step === 1 ? (
-            <fieldset className="contact-fieldset">
-              <legend className="contact-legend" id="contact-form-title">Votre besoin</legend>
-              <p className="contact-step-intro" id="contact-need-help">
-                Choisissez simplement le sujet principal.
-              </p>
-              <div className="contact-choice-grid contact-need-grid" aria-describedby="contact-need-help">
-                {NEED_OPTIONS.map((option, index) => {
-                  const id = `contact-need-${index}`;
-                  return (
-                    <label className="contact-choice contact-need-choice" htmlFor={id} key={option.value}>
-                      <input
-                        className="contact-choice-input"
-                        id={id}
-                        name="need"
-                        type="radio"
-                        value={option.value}
-                        checked={values.need === option.value}
-                        onChange={updateField("need")}
-                        required
-                      />
-                      <span className="contact-choice-label">
-                        <strong>{option.title}</strong>
-                        <small>{option.description}</small>
-                      </span>
-                    </label>
-                  );
-                })}
-              </div>
-            </fieldset>
-          ) : (
-            <fieldset className="contact-fieldset">
-              <legend className="contact-legend" id="contact-form-title">
-                Parlons de votre entreprise et de votre projet
-              </legend>
-              <p className="contact-step-intro">Quelques lignes suffisent pour commencer.</p>
+            <div className="contact-field">
+              <label className="contact-label" htmlFor="contact-name">Prénom et nom</label>
+              <input
+                className="contact-input"
+                id="contact-name"
+                name="name"
+                type="text"
+                autoComplete="name"
+                maxLength={100}
+                placeholder="Prénom et nom"
+                value={values.name}
+                onChange={updateField("name")}
+                required
+              />
+            </div>
 
-              <div className="contact-fields-grid contact-fields-compact">
-                <div className="contact-field">
-                  <label className="contact-label" htmlFor="contact-name">Votre nom</label>
-                  <input
-                    className="contact-input"
-                    id="contact-name"
-                    name="name"
-                    type="text"
-                    autoComplete="name"
-                    maxLength={100}
-                    value={values.name}
-                    onChange={updateField("name")}
-                    required
-                  />
-                </div>
+            <div className="contact-field">
+              <label className="contact-label" htmlFor="contact-company">Votre entreprise ou activité</label>
+              <input
+                className="contact-input"
+                id="contact-company"
+                name="company"
+                type="text"
+                autoComplete="organization"
+                maxLength={120}
+                placeholder="Nom de l’entreprise"
+                value={values.company}
+                onChange={updateField("company")}
+                required
+              />
+            </div>
 
-                <div className="contact-field">
-                  <label className="contact-label" htmlFor="contact-company">Votre entreprise</label>
-                  <input
-                    className="contact-input"
-                    id="contact-company"
-                    name="company"
-                    type="text"
-                    autoComplete="organization"
-                    maxLength={120}
-                    value={values.company}
-                    onChange={updateField("company")}
-                    required
-                  />
-                </div>
+            <div className="contact-field">
+              <label className="contact-label" htmlFor="contact-email">Votre e-mail</label>
+              <input
+                className="contact-input"
+                id="contact-email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                maxLength={200}
+                placeholder="vous@entreprise.fr"
+                value={values.email}
+                onChange={updateField("email")}
+                required
+              />
+            </div>
 
-                <div className="contact-field">
-                  <label className="contact-label" htmlFor="contact-email">Votre e-mail</label>
-                  <input
-                    className="contact-input"
-                    id="contact-email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    maxLength={200}
-                    value={values.email}
-                    onChange={updateField("email")}
-                    required
-                  />
-                </div>
+            <div className="contact-field">
+              <label className="contact-label" htmlFor="contact-phone">
+                Téléphone <span className="contact-optional">facultatif</span>
+              </label>
+              <input
+                className="contact-input"
+                id="contact-phone"
+                name="phone"
+                type="tel"
+                autoComplete="tel"
+                maxLength={40}
+                placeholder="06 00 00 00 00"
+                value={values.phone}
+                onChange={updateField("phone")}
+              />
+            </div>
 
-                <div className="contact-field">
-                  <label className="contact-label" htmlFor="contact-phone">
-                    Téléphone <span className="contact-optional">facultatif</span>
-                  </label>
-                  <input
-                    className="contact-input"
-                    id="contact-phone"
-                    name="phone"
-                    type="tel"
-                    autoComplete="tel"
-                    maxLength={40}
-                    value={values.phone}
-                    onChange={updateField("phone")}
-                  />
-                </div>
+            <div className="contact-field contact-field-wide">
+              <label className="contact-label" htmlFor="contact-description">
+                Votre projet et le résultat attendu
+              </label>
+              <textarea
+                className="contact-textarea contact-textarea-compact"
+                id="contact-description"
+                name="description"
+                rows={4}
+                minLength={20}
+                maxLength={3000}
+                placeholder="Ex. Nous souhaitons refaire notre site pour mieux présenter nos réalisations et obtenir davantage de demandes qualifiées."
+                value={values.description}
+                onChange={updateField("description")}
+                required
+              />
+            </div>
 
-                <div className="contact-field contact-field-wide">
-                  <label className="contact-label" htmlFor="contact-description">
-                    Votre entreprise, votre projet, le résultat attendu
-                  </label>
-                  <textarea
-                    className="contact-textarea contact-textarea-compact"
-                    id="contact-description"
-                    name="description"
-                    rows={4}
-                    minLength={20}
-                    maxLength={3000}
-                    placeholder="Dites-nous simplement ce que vous souhaitez créer ou améliorer."
-                    value={values.description}
-                    onChange={updateField("description")}
-                    required
-                  />
-                </div>
+            <p className="contact-form-reassurance contact-field-wide">
+              <strong>Pas besoin d’un brief complet.</strong> Quelques lignes suffisent pour un premier échange utile.
+            </p>
 
-                <label className="contact-consent contact-field-wide" htmlFor="contact-consent">
-                  <input
-                    id="contact-consent"
-                    name="consent"
-                    type="checkbox"
-                    checked={values.consent}
-                    onChange={(event) => setValues((current) => ({ ...current, consent: event.target.checked }))}
-                    required
-                  />
-                  <span>
-                    J’accepte que mes informations soient utilisées pour répondre à ma demande.{" "}
-                    <Link href="/politique-confidentialite">En savoir plus</Link>.
-                  </span>
-                </label>
+            <label className="contact-consent contact-field-wide" htmlFor="contact-consent">
+              <input
+                id="contact-consent"
+                name="consent"
+                type="checkbox"
+                checked={values.consent}
+                onChange={(event) => {
+                  setValues((current) => ({ ...current, consent: event.target.checked }));
+                  if (status === "error") setStatus("idle");
+                  setErrorMessage("");
+                }}
+                required
+              />
+              <span>
+                J’accepte que mes informations soient utilisées pour répondre à ma demande.{" "}
+                <Link href="/politique-confidentialite">En savoir plus</Link>.
+              </span>
+            </label>
 
-                <div className="contact-honeypot" aria-hidden="true">
-                  <label htmlFor="contact-url">Ne pas remplir ce champ</label>
-                  <input
-                    id="contact-url"
-                    name="contactUrl"
-                    type="text"
-                    tabIndex={-1}
-                    autoComplete="off"
-                    value={values.contactUrl}
-                    onChange={updateField("contactUrl")}
-                  />
-                </div>
-              </div>
-            </fieldset>
-          )}
-        </div>
+            <div className="contact-honeypot" aria-hidden="true">
+              <label htmlFor="contact-url">Ne pas remplir ce champ</label>
+              <input
+                id="contact-url"
+                name="contactUrl"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                value={values.contactUrl}
+                onChange={updateField("contactUrl")}
+              />
+            </div>
+          </div>
+        </fieldset>
 
         {status === "error" ? <p className="contact-error" role="alert">{errorMessage}</p> : null}
 
         <div className="contact-form-actions contact-form-actions-compact">
-          {step === 2 ? (
-            <button className="contact-button contact-button-secondary" type="button" onClick={() => setStep(1)}>
-              Retour
-            </button>
-          ) : null}
-
-          {step === 1 ? (
-            <button className="contact-button contact-button-primary" type="button" onClick={goToNextStep}>
-              Continuer <span aria-hidden="true">→</span>
-            </button>
-          ) : (
-            <button className="contact-button contact-button-primary" type="submit" disabled={status === "sending"}>
-              {status === "sending" ? "Envoi en cours…" : "Envoyer ma demande"}
-            </button>
-          )}
+          <button
+            className={`contact-button contact-button-primary${status === "sending" ? " is-sending" : ""}`}
+            type="submit"
+            disabled={status === "sending"}
+          >
+            {status === "sending" ? "Envoi en cours…" : "Envoyer ma demande"}
+          </button>
         </div>
       </form>
     </section>

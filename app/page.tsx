@@ -1,9 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
+import ContactForm from "@/app/contact/ContactForm";
 import { ProjectCarousel } from "@/components/ProjectCarousel";
+import { seoArticles } from "@/lib/seo-articles";
 import {
   clientMarks,
   collectiveRoles,
+  contact,
   expertises,
   faqItems,
   monthlyPlans,
@@ -12,6 +15,50 @@ import {
 } from "@/lib/site-data";
 
 type ClientMark = (typeof clientMarks)[number];
+
+const audienceCards = [
+  {
+    index: "01",
+    title: "Entreprises du bâtiment",
+    description: "Un système local pour montrer les chantiers, rassurer et transformer les recherches en demandes de devis qualifiées.",
+    href: "/secteurs/batiment",
+  },
+  {
+    index: "02",
+    title: "PME établies",
+    description: "Une refonte maîtrisée, une offre plus lisible et des canaux d’acquisition reliés aux vraies conversions.",
+    href: "/secteurs/pme",
+  },
+  {
+    index: "03",
+    title: "Startups & nouvelles marques",
+    description: "Positionnement, identité, landing page ou produit : une base crédible pour lancer et apprendre rapidement.",
+    href: "/secteurs/startups",
+  },
+  {
+    index: "04",
+    title: "Experts indépendants",
+    description: "Une présence d’autorité pour les consultants, cabinets et spécialistes dont la valeur dépasse un simple portfolio.",
+    href: "/secteurs/independants",
+  },
+] as const;
+
+const expertiseLinks: Record<string, { href: string; label: string }> = {
+  strategie: { href: "/services", label: "Voir toutes les solutions" },
+  digital: { href: "/creation-site-internet-chambery", label: "Création de sites internet" },
+  identite: { href: "/identite-visuelle-chambery", label: "Identité visuelle" },
+  "photo-video": { href: "/photo-video-entreprise-savoie", label: "Photo et vidéo d’entreprise" },
+  acquisition: { href: "/referencement-seo", label: "SEO, GEO et acquisition" },
+  contenus: { href: "/ressources", label: "Découvrir nos ressources" },
+};
+
+const featuredArticleSlugs = new Set([
+  "site-internet-batiment-generer-devis",
+  "seo-ou-google-ads-pme-locale",
+  "apparaitre-chatgpt-google-ai",
+]);
+
+const featuredResources = seoArticles.filter((article) => featuredArticleSlugs.has(article.slug));
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -47,6 +94,8 @@ function ClientLogo({ client, duplicate = false }: { client: ClientMark; duplica
 }
 
 export default function Home() {
+  const phoneHref = `tel:${contact.phone.replace(/[^+\d]/g, "")}`;
+
   return (
     <main id="contenu">
       <section className="agency-hero" aria-labelledby="hero-title">
@@ -54,18 +103,18 @@ export default function Home() {
         <div className="hero-orbit hero-orbit-two" aria-hidden="true" />
         <div className="shell agency-hero-grid">
           <div className="agency-hero-copy">
-            <p className="eyebrow">Collectif web, design & acquisition en Savoie</p>
+            <p className="eyebrow">Agence web, design, SEO & acquisition en Savoie</p>
             <h1 id="hero-title">
               Une image claire, un site solide, une <em>visibilité augmentée.</em>
             </h1>
             <p className="agency-hero-lead">
-              Trois indépendants réunissent stratégie, design et acquisition pour construire des marques
-              cohérentes, des outils simples à comprendre et une visibilité que l’on peut piloter.
+              3h36 réunit stratégie, design et acquisition pour aider les PME, entreprises du bâtiment,
+              startups et experts indépendants à être mieux compris, mieux trouvés et plus souvent contactés.
             </p>
             <div className="cta-row">
-              <Link className="button" href="/contact">
+              <a className="button" href="#contact">
                 Parler de votre projet <span aria-hidden="true">↗</span>
-              </Link>
+              </a>
               <a className="button button-secondary" href="#expertises">
                 Découvrir les expertises
               </a>
@@ -82,8 +131,8 @@ export default function Home() {
               unoptimized
             />
             <figcaption>
-              <strong>Trois savoir-faire, une direction commune</strong>
-              <span>Web</span><span>Design</span><span>Acquisition</span>
+              <strong>Deux profils, une direction commune</strong>
+              <span>Web</span><span>Communication</span><span>Image</span>
             </figcaption>
           </figure>
         </div>
@@ -105,11 +154,29 @@ export default function Home() {
         </section>
       </section>
 
+      <section className="home-contact-section" id="contact" aria-labelledby="home-contact-title">
+        <div className="shell home-contact-grid">
+          <div className="home-contact-copy">
+            <p className="section-index">Un projet en tête ?</p>
+            <p className="kicker">Le formulaire est ici, sans détour</p>
+            <h2 id="home-contact-title">Parlons de l’essentiel avant de parler solution.</h2>
+            <p>
+              Présentez votre activité, ce que vous voulez améliorer et l’échéance visée. Quelques lignes suffisent pour revenir avec le bon prochain pas.
+            </p>
+            <div className="home-contact-details" aria-label="Coordonnées de 3h36 Agency">
+              <a href={phoneHref}>{contact.phone}</a>
+              <a href={`mailto:${contact.email}`}>{contact.email}</a>
+            </div>
+          </div>
+          <ContactForm />
+        </div>
+      </section>
+
       <section className="agency-intro" aria-labelledby="intro-title">
         <div className="shell intro-heading-row">
           <div className="intro-label">
             <p className="section-index">01 — Qui sommes-nous ?</p>
-            <p className="kicker">Trois indépendants, une seule direction</p>
+            <p className="kicker">Deux indépendants, une même direction</p>
           </div>
           <h2 id="intro-title">
             La précision d’une agence, <em>la souplesse d’un collectif.</em>
@@ -137,6 +204,31 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="agency-section audience-home" aria-labelledby="audience-home-title">
+        <div className="shell">
+          <div className="split-heading">
+            <div>
+              <p className="section-index">Nos secteurs prioritaires</p>
+              <p className="kicker">Spécialisés sans devenir rigides</p>
+              <h2 id="audience-home-title">Un même niveau d’exigence, des réponses propres à chaque métier.</h2>
+            </div>
+            <p>
+              Un chantier, une PME en refonte, une startup en lancement et un consultant expérimenté ne se vendent pas de la même façon. Chaque parcours part de ses décisions réelles.
+            </p>
+          </div>
+          <div className="audience-home-grid">
+            {audienceCards.map((item) => (
+              <Link href={item.href} key={item.href}>
+                <span>{item.index}</span>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                <i aria-hidden="true">↗</i>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <div id="expertises" className="expertise-list">
         {expertises.map((expertise, index) => (
           <section className={`expertise-row${index % 2 ? " expertise-row-reverse" : ""}`} key={expertise.id} aria-labelledby={`expertise-${expertise.id}`}>
@@ -150,6 +242,9 @@ export default function Home() {
                 <ul className="deliverable-list">
                   {expertise.deliverables.map((item) => <li key={item}>{item}</li>)}
                 </ul>
+                <Link className="text-link expertise-link" href={expertiseLinks[expertise.id].href}>
+                  {expertiseLinks[expertise.id].label} <span aria-hidden="true">↗</span>
+                </Link>
               </div>
               <figure className="expertise-visual">
                 <div className="expertise-image-wrap">
@@ -218,10 +313,10 @@ export default function Home() {
         <div className="shell collective-grid">
           <div className="collective-statement">
             <p className="section-index section-index-light">03 — Le collectif</p>
-            <p className="kicker">Trois indépendants, une direction commune</p>
+            <p className="kicker">Deux profils complémentaires</p>
             <h2 id="collective-title">Les compétences d’une équipe, sans multiplier les interlocuteurs.</h2>
             <p>
-              Le noyau réunit trois métiers complémentaires. Selon le projet, chacun intervient au bon moment, tandis qu’un interlocuteur principal garde le fil des décisions, du budget et du planning.
+              Loris et Lilian réunissent web, acquisition, communication et direction graphique. Selon le projet, chacun intervient au bon moment, tandis qu’un interlocuteur principal garde le fil des décisions, du budget et du planning.
             </p>
             <Link className="button button-light" href="/contact">Rencontrer le collectif <span aria-hidden="true">↗</span></Link>
           </div>
@@ -229,7 +324,7 @@ export default function Home() {
             {collectiveRoles.map((profile) => (
               <li key={profile.number}>
                 <span>{profile.number}</span>
-                <div><h3>{profile.role}</h3><p>{profile.description}</p></div>
+                <div><p className="collective-role-name">{profile.name}</p><h3>{profile.role}</h3><p>{profile.description}</p></div>
               </li>
             ))}
           </ol>
@@ -269,6 +364,38 @@ export default function Home() {
               </li>
             ))}
           </ol>
+        </div>
+      </section>
+
+      <section className="agency-section home-resources" aria-labelledby="home-resources-title">
+        <div className="shell">
+          <div className="split-heading">
+            <div>
+              <p className="section-index">Ressources & observatoire</p>
+              <p className="kicker">Des réponses qui restent vérifiables</p>
+              <h2 id="home-resources-title">Comprendre avant d’investir.</h2>
+            </div>
+            <div>
+              <p>Guides de décision, méthodes et sources officielles pour piloter un site, le SEO, l’acquisition et la visibilité dans les moteurs IA.</p>
+              <Link className="text-link" href="/ressources">Voir toutes les ressources <span aria-hidden="true">→</span></Link>
+            </div>
+          </div>
+          <div className="home-resource-grid">
+            {featuredResources.map((article) => (
+              <Link href={`/ressources/${article.slug}`} key={article.slug}>
+                <span>{article.category} · {article.readingTime}</span>
+                <h3>{article.title}</h3>
+                <p>{article.description}</p>
+                <i aria-hidden="true">↗</i>
+              </Link>
+            ))}
+            <Link className="home-resource-observatory" href="/observatoire-geo-savoie">
+              <span>Observatoire GEO Savoie · protocole ouvert</span>
+              <h3>Mesurer ce que les moteurs IA comprennent, citent et recommandent.</h3>
+              <p>Une méthode publiée avant les résultats, fondée sur des observations datées et des sources vérifiables.</p>
+              <i aria-hidden="true">↗</i>
+            </Link>
+          </div>
         </div>
       </section>
 

@@ -80,11 +80,11 @@ export type ContactDetails = {
 };
 
 export const navigation = [
-  { label: "Expertises", href: "/#expertises" },
-  { label: "Offres", href: "/#offres" },
-  { label: "Collectif", href: "/#collectif" },
+  { label: "Solutions", href: "/services" },
+  { label: "Secteurs", href: "/secteurs" },
   { label: "Réalisations", href: "/realisations" },
-  { label: "Approche", href: "/#methode" },
+  { label: "Ressources", href: "/ressources" },
+  { label: "Collectif", href: "/a-propos" },
 ] as const satisfies readonly NavigationItem[];
 
 export const clientMarks = [
@@ -411,18 +411,15 @@ export const monthlyPlans = [
 export const collectiveRoles = [
   {
     number: "01",
+    name: "Loris",
     role: "Stratégie, web & acquisition",
     description: "Cadrage, expérience, développement, SEO/SEA et pilotage des actions mesurables.",
   },
   {
     number: "02",
-    role: "Identité & création graphique",
+    name: "Lilian",
+    role: "Communication, image & direction graphique",
     description: "Direction artistique, identité visuelle, systèmes graphiques et déclinaisons de marque.",
-  },
-  {
-    number: "03",
-    role: "Photo & vidéo",
-    description: "Conception visuelle, prises de vue, montage et formats adaptés aux différents canaux.",
   },
 ] as const;
 
@@ -433,7 +430,7 @@ export const faqItems = [
   },
   {
     question: "Avec qui vais-je travailler ?",
-    answer: "3h36 agency réunit trois indépendants complémentaires. Vous gardez un interlocuteur principal, puis les expertises web, design, acquisition, photo ou vidéo interviennent selon le besoin réel du projet.",
+    answer: "3h36 agency réunit Loris, pour la stratégie web et l’acquisition, et Lilian, pour la communication, l’image et la direction graphique. Vous gardez un interlocuteur principal et les expertises sont activées selon le besoin réel du projet.",
   },
   {
     question: "Combien de temps faut-il prévoir ?",
@@ -477,35 +474,41 @@ export const footerLinks = [
   {
     title: "Explorer",
     links: [
-      { label: "Expertises", href: "/#expertises" },
-      { label: "Offres", href: "/#offres" },
-      { label: "Le collectif", href: "/#collectif" },
+      { label: "Tous les services", href: "/services" },
+      { label: "Secteurs accompagnés", href: "/secteurs" },
       { label: "Réalisations", href: "/realisations" },
+      { label: "Ressources", href: "/ressources" },
     ],
   },
   {
-    title: "Travailler ensemble",
+    title: "Solutions prioritaires",
     links: [
-      { label: "Notre approche", href: "/#methode" },
-      { label: "Site vitrine", href: "/site-vitrine" },
-      { label: "Site acquisition", href: "/site-acquisition" },
-      { label: "Outil métier", href: "/solutions-metiers" },
+      { label: "Agence web Chambéry", href: "/agence-web-chambery" },
+      { label: "Sites pour le bâtiment", href: "/site-internet-batiment-savoie" },
+      { label: "Refonte de site PME", href: "/refonte-site-internet-pme-savoie" },
+      { label: "SEO en Savoie", href: "/referencement-seo" },
+      { label: "Visibilité GEO", href: "/geo" },
+      { label: "Google Ads", href: "/gestion-google-ads" },
+      { label: "Agence web Aix-les-Bains", href: "/agence-web-aix-les-bains" },
+      { label: "Agence web Albertville", href: "/agence-web-albertville" },
     ],
   },
   {
-    title: "Informations",
+    title: "3h36 Agency",
     links: [
+      { label: "À propos", href: "/a-propos" },
+      { label: "Notre méthode", href: "/methode" },
+      { label: "Accompagnement", href: "/accompagnement" },
       { label: "Contact", href: "/contact" },
       { label: "Mentions légales", href: "/mentions-legales" },
       { label: "Confidentialité", href: "/politique-confidentialite" },
-      { label: "Cookies", href: "/cookies" },
     ],
   },
 ] as const satisfies readonly FooterLinkGroup[];
 
 export const contact = {
-  email: "",
-  phone: "",
+  email: "contact@3h36agency.fr",
+  phone: "06 11 15 75 01",
   location: "Savoie",
   note: "Projets locaux et à distance.",
 } as const satisfies ContactDetails;

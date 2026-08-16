@@ -11,6 +11,7 @@
     "build:vercel": "next build",
     "start": "vinext start",
     "test": "npm run build && node --test tests/rendered-html.test.mjs",
+    "seo:audit": "node scripts/seo-audit.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"
   },
@@ -36,6 +37,7 @@
     "typescript": "5.9.3",
     "vinext": "0.0.50",
     "vite": "8.0.13",
+    "webpack": "^5.109.2",
     "wrangler": "4.92.0"
   },
   "type": "module"
